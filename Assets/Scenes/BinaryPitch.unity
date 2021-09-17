@@ -9966,7 +9966,7 @@ GameObject:
   - component: {fileID: 2334558944655044772}
   - component: {fileID: 2334558944655044775}
   m_Layer: 5
-  m_Name: BinaryOverlay
+  m_Name: EyeTrackOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10045,7 +10045,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Binary
+  m_Text: EyeTrack
 --- !u!114 &2334558944655044778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13662,7 +13662,7 @@ GameObject:
   - component: {fileID: 3383331288361050375}
   - component: {fileID: 3383331288361050374}
   m_Layer: 5
-  m_Name: Binary
+  m_Name: EyeTrack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13723,7 +13723,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Binary
+  m_Text: EyeTrack
 --- !u!222 &3383331288361050375
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15693,7 +15693,7 @@ GameObject:
   - component: {fileID: 3383331289285810378}
   - component: {fileID: 3383331289285810377}
   m_Layer: 5
-  m_Name: BinaryButton
+  m_Name: EyeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

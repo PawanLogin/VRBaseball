@@ -119,8 +119,33 @@ public class ScoreHandler1 : MonoBehaviour
         idNum++;
 
         //Score takes the guess, and ballType takes the correct answer
+        int tempNum = 0;
 
-        ballTypes.Add(BaseballController1.pitchTypes);
+        switch (BaseballController1.pitchTypes)
+        {
+            case 0:
+                tempNum = 0;
+                break;
+
+            case 1:
+                tempNum = 1;
+                break;
+
+            case 2:
+                tempNum = 3;
+                break;
+
+            case 3:
+                tempNum = 0;
+                break;
+
+            case 4:
+                tempNum = 4;
+                break;
+        }
+
+        ballTypes.Add(tempNum);
+
         scores.Add(RayCasting.guess);
 
         int nun = ballTypes.Count;
@@ -128,10 +153,7 @@ public class ScoreHandler1 : MonoBehaviour
         //print("Saving Guess: " + RayCasting.guess);
         //print("Saving Throw: " + BaseballController1.pitchTypes);
 
-
-
-
-        updateText(RayCasting.guess, BaseballController1.pitchTypes);
+        updateText(RayCasting.guess, tempNum);
         if (idNum > 14)
         {
             endGame();

@@ -15,4 +15,5 @@ EditorBuildSettings:
     path: Assets/Scenes/SwingTrigger.unity
     guid: 8a5f2bdbe2eaa405391c9eefd549b4a9
   m_configObjects:
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 75dae2ccb703245b086d2bfb78784b10, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 416e49127bfe943d3abe77dd9ec425fc, type: 2}

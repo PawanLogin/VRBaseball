@@ -110,7 +110,7 @@ public class BaseballController1 : MonoBehaviour
 
                 case 2:
                     //Slider
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + .5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    handle.localPosition = new Vector3(handleDefault.localPosition.x + -.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
                     break;
 
                 case 3:
@@ -413,17 +413,17 @@ public class BaseballController1 : MonoBehaviour
         switch (RayCasting.pitcher)
         {
             //Leave this one alone. Pitcher one should be the default position
-            case 1:
+            case 0:
                 posA.position = new Vector3(posADefault.position.x, posADefault.position.y, posADefault.position.z);
                 break;
 
             //Change amount needed to adjust for pitcher positioning here
-            case 2:
+            case 1:
                 posA.position = posX.position;
                 break;
 
             //Change amount needed to adjust for pitcher positioning here
-            case 3:
+            case 2:
                 posA.position = posY.position;
                 break;
         }

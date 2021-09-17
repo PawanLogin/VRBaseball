@@ -21,7 +21,7 @@ public class BaseballController : MonoBehaviour
     private List<int> Balls = new List<int>();
     private List<int> Strikes = new List<int>();
 
-    private Transform posADefault;
+    private Vector3 posADefault;
     public Transform posBDefault;
     public Transform handleDefault;
     public float percent = 0;
@@ -42,7 +42,7 @@ public class BaseballController : MonoBehaviour
 
     void Start()
     {
-        posADefault = posA;
+        posADefault = posA.position;
 
         Balls.Add(6);
         Balls.Add(7);
@@ -113,7 +113,7 @@ public class BaseballController : MonoBehaviour
 
                 case 2:
                     //Slider
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + .5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    handle.localPosition = new Vector3(handleDefault.localPosition.x + -.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
                     break;
 
                 case 3:
@@ -389,7 +389,7 @@ public class BaseballController : MonoBehaviour
             //Leave this one alone. Pitcher one should be the default position
             case 0:
 
-                posA.position = new Vector3(posADefault.position.x, posADefault.position.y, posADefault.position.z);
+                posA.position = posADefault;
                 break;
 
             //Change amount needed to adjust for pitcher positioning here
@@ -492,4 +492,5 @@ public class BaseballController : MonoBehaviour
         }
         Gizmos.DrawLine(p1, posB.position);
     }
+
 }

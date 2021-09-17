@@ -3575,6 +3575,11 @@ Transform:
   m_Father: {fileID: 122995118}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &862173132 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8983504363475146460, guid: dc7dbf0f9ee6b4b81ae9e3d13f2848fd, type: 3}
+  m_PrefabInstance: {fileID: 360757061}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &868915484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3926,7 +3931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bd3aa590ece47c8944dd0ff52b6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strikeZone: {fileID: 0}
+  strikeZone: {fileID: 862173132}
   BallType: {fileID: 986622249}
   BallScore: {fileID: 1360710656}
   score1: {fileID: 321787787}
@@ -10191,7 +10196,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 27
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -10833,7 +10838,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 27
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -13611,7 +13616,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 27
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -14348,7 +14353,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 27
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -14439,7 +14444,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 27
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
