@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Abhiwan added the namespace
+namespace SwingTriger
+{
     public class UIController : MonoBehaviour
     {
         private int gameState;
@@ -17,14 +20,16 @@ using UnityEngine;
 
         void Update()
         {
+            gameState = SwingTriger.RayCasting.gameState;
             Visible();
-            gameState = RayCasting.gameState;
+           
             //Debug.Log("Game state ... "+ gameState);
 
         }
 
         private void Visible()
         {
+           // Debug.Log("gameState "+ gameState);
             switch (gameState)
             {
 
@@ -145,10 +150,11 @@ using UnityEngine;
                     }
                     break;
                 case 2:
-                    // Debug.Log("ScoreHandler.GameOver ... " + !ScoreHandler.GameOver);
-                    if (!ScoreHandler.GameOver)
+                     //Debug.Log("!SwingTriger.ScoreHandler.GameOver ... " + !SwingTriger.ScoreHandler.GameOver);
+                    if (!SwingTriger.ScoreHandler.GameOver)
                     {
-                        // Debug.Log("if UIType ... " + UIType);
+                       // Debug.Log("if ... ");
+                        // Debug.Log($"this gameobj nam {this.gameObject.name} ... uitype {UIType}");
                         switch (UIType)
                         {
                             case 1:
@@ -164,17 +170,43 @@ using UnityEngine;
                                 rend.enabled = false;
                                 break;
                             case 5:
-                                rend.enabled = false;
+                                //  Debug.Log($"this gameobj nam {this.gameObject.name}called from 5 if .....");
+                                // this condition is added by abhiwan ......
+                                if (settingsOpen)
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = false;
+                                }
                                 break;
                         }
                     }
                     else
                     {
-                        // Debug.Log("else UIType ... " + UIType);
+                        //Debug.Log("else ... ");
+                        // Debug.Log($"this gameobj nam {this.gameObject.name} else UIType ... " + UIType);
                         switch (UIType)
                         {
                             case 1:
-                                rend.enabled = true;
+                                 rend.enabled = true;
+                                //if (!SwingTriger.ScoreHandler.PitcherIntervalSwingTrigger)
+                                //{
+                                //    rend.enabled = true;
+                                //}
+                                //else
+                                //{
+                                //    Debug.Log("1........."+ !SwingTriger.ScoreHandler.GameOver);
+                                //    rend.enabled = false;
+                                //    if (!isInvokeCalled)
+                                //    {
+                                //        Debug.Log("2.........");
+                                //        StartCoroutine("IntervalBetweenPitcher");
+                                //    }
+                                //}
                                 break;
                             case 2:
                                 rend.enabled = true;
@@ -188,18 +220,33 @@ using UnityEngine;
                             case 5:
                                 if (settingsOpen)
                                 {
+                                   // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
                                     rend.enabled = true;
                                 }
                                 else
                                 {
+                                   // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
                                     rend.enabled = false;
                                 }
                                 break;
                         }
                     }
                     break;
+            }
+        }
 
-
+        bool isInvokeCalled;
+        IEnumerator IntervalBetweenPitcher()
+        {
+           
+                Debug.Log("1 ...Again start the applicatio ......");
+                isInvokeCalled = true;
+                Debug.Log("2.........Again start the applicatio ......");
+                yield return new WaitForSeconds(3f);
+                Debug.Log("3...called after 3 second interval.....Again start the applicatio ......");
+                SwingTriger.RayCasting.gameJustStarted = true;
+                SwingTriger.ScoreHandler.GameOver = false;
+                isInvokeCalled = false;
             }
         }
 

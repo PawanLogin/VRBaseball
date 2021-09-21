@@ -21,7 +21,7 @@ public class ScoreHandler : MonoBehaviour
     private int pitchNumber = 0;
 
     public static List<int> scores = new List<int>();
-    public static List<int> ballTypes = new List<int>();
+    public static List<string> ballTypes = new List<string>();
 
     public Text BallType;
     public Text BallScore;
@@ -133,35 +133,9 @@ public class ScoreHandler : MonoBehaviour
 
     private void storeData(int idNum, int score, string ballType)
     {
-        int tempNum = 0;
-        switch (BaseballController.pitchTypes)
-        {
-            case 0:
-                tempNum = 0;
-                break;
-
-            case 1:
-                tempNum = 1;
-                break;
-
-            case 2:
-                tempNum = 3;
-                break;
-
-            case 3:
-                tempNum = 0;
-                break;
-
-            case 4:
-                tempNum = 4;
-                break;
-        }
-
-        ballTypes.Add(tempNum);
-
-        updateText(score, converter(tempNum));
+        updateText(score, ballType);
         scores.Add(score);
-
+        ballTypes.Add(ballType);
         if (idNum > 19)
         {
             endGame();
@@ -266,9 +240,9 @@ public class ScoreHandler : MonoBehaviour
             case 1:
                 return "Curve Ball";
             case 2:
-                return "Slider";
-            case 3:
                 return "Two Seam";
+            case 3:
+                return "Slider";
             case 4:
                 return "Change Up";
             case 5:

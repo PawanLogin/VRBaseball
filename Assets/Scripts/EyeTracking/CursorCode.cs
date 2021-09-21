@@ -16,6 +16,7 @@ public class CursorCode : MonoBehaviour
     void Update()
     {
         gameState = RayCasting.gameState;
+      //  Debug.Log("gameState "+ gameState);
         ChangeColor();
     }
 
@@ -24,10 +25,12 @@ public class CursorCode : MonoBehaviour
         switch (gameState)
         {
             case 0:
+               
                 if (RayCasting.overBall)// && !ScoreHandler.GameOver)
                 {
                     GetComponent<Image>().color = Color.green;
                 }
+               // 
                 else if (RayCasting.overUI && ScoreHandler.GameOver)
                 {
                     GetComponent<Image>().color = Color.gray;

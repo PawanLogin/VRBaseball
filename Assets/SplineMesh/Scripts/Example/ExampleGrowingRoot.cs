@@ -35,13 +35,13 @@ namespace SplineMesh {
             rate = 0;
             Init();
 #if UNITY_EDITOR
-            EditorApplication.update += EditorUpdate;
+          //  EditorApplication.update += EditorUpdate;
 #endif
         }
 
         void OnDisable() {
 #if UNITY_EDITOR
-            EditorApplication.update -= EditorUpdate;
+           /// EditorApplication.update -= EditorUpdate;
 #endif
         }
 

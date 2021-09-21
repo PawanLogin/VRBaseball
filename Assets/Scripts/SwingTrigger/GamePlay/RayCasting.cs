@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
+// Abhiwan added the namespace
+namespace SwingTriger
+{
     public class RayCasting : MonoBehaviour
     {
 
@@ -613,10 +614,11 @@ using UnityEngine.SceneManagement;
                             }
                         }
                         break;
+// this block belong to the eyetracking mode of the game .................................................................................................
                     // This block of the code is added by Abhiwan ....................................
                     case 2:
 
-                        if (UIController.settingsOpen)
+                        if (SwingTriger.UIController.settingsOpen)
                         {
                             if (hitGameObject.name == "SwingButton")
                             {
@@ -702,13 +704,13 @@ using UnityEngine.SceneManagement;
                             {
                                 if (Input.anyKeyDown)
                                 {
-                                    UIController.settingsOpen = false;
+                                    SwingTriger.UIController.settingsOpen = false;
                                 }
                             }
 
                             if (hitGameObject.name == "RightHand")
                             {
-                                if (Input.anyKeyDown && ScoreHandler.GameOver)
+                                if (Input.anyKeyDown && SwingTriger.ScoreHandler.GameOver)
                                 {
                                     leftHanded = false;
                                 }
@@ -718,7 +720,7 @@ using UnityEngine.SceneManagement;
 
                             if (hitGameObject.name == "LeftHand")
                             {
-                                if (Input.anyKeyDown && ScoreHandler.GameOver)
+                                if (Input.anyKeyDown && SwingTriger.ScoreHandler.GameOver)
                                 {
                                     leftHanded = true;
                                 }
@@ -727,21 +729,21 @@ using UnityEngine.SceneManagement;
                             }
                         }
 
-                        if (hitGameObject.name == "SettingsButton" && ScoreHandler.GameOver)
+                        if (hitGameObject.name == "SettingsButton" && SwingTriger.ScoreHandler.GameOver)
                         {
                             if (Input.anyKeyDown)
                             {
-                                UIController.settingsOpen = true;
+                                SwingTriger.UIController.settingsOpen = true;
                             }
                         }
                         // Debug.Log($"hitGameObject.name {hitGameObject.name}");
                         if (hitGameObject.name == "PlayButton")
                         {
-
-                            if (Input.anyKeyDown && ScoreHandler.GameOver)
+                           // Debug.Log($"SwingTriger.ScoreHandler.GameOver {SwingTriger.ScoreHandler.GameOver}");
+                            if (Input.anyKeyDown && SwingTriger.ScoreHandler.GameOver)
                             {
-                                //  Debug.Log($"Input.anyKeyDown {Input.anyKeyDown } ScoreHandler.GameOver {ScoreHandler.GameOver}");
-                                ScoreHandler.GameOver = false;
+                               // Debug.Log("Hi ..."+ Input.anyKeyDown);
+                                SwingTriger.ScoreHandler.GameOver = false;
                                 gameJustStarted = true;
                             }
                             overUI = true;
@@ -752,7 +754,7 @@ using UnityEngine.SceneManagement;
 
                             if (Input.anyKeyDown)
                             {
-                                ScoreHandler.GameOver = true;
+                                SwingTriger.ScoreHandler.GameOver = true;
                             }
                             overUI = true;
 
@@ -760,7 +762,7 @@ using UnityEngine.SceneManagement;
 
                         if (hitGameObject.name == "ExitButton")
                         {
-                            if (Input.anyKeyDown && ScoreHandler.GameOver)
+                            if (Input.anyKeyDown && SwingTriger.ScoreHandler.GameOver)
                             {
                                 // Below Lines edit by Abhiwan
                                 // Quit the application in editor mode as well.
@@ -777,7 +779,7 @@ using UnityEngine.SceneManagement;
 
                         if (hitGameObject.name == "RightArrowHitBox")
                         {
-                            if (ScoreHandler.GameOver)
+                            if (SwingTriger.ScoreHandler.GameOver)
                             {
                                 if (Input.anyKeyDown)
                                 {
@@ -790,7 +792,7 @@ using UnityEngine.SceneManagement;
 
                         if (hitGameObject.name == "LeftArrowHitBox")
                         {
-                            if (ScoreHandler.GameOver)
+                            if (SwingTriger.ScoreHandler.GameOver)
                             {
                                 if (Input.anyKeyDown)
                                 {
@@ -809,3 +811,4 @@ using UnityEngine.SceneManagement;
 
         }
     }
+}

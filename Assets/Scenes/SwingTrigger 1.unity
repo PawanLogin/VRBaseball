@@ -4170,6 +4170,7 @@ GameObject:
   - component: {fileID: 618113703}
   - component: {fileID: 618113702}
   - component: {fileID: 618113701}
+  - component: {fileID: 618113700}
   - component: {fileID: 618113708}
   m_Layer: 5
   m_Name: ResultCanvas
@@ -4178,6 +4179,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &618113700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618113699}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ae86cc5d62b46abb908e13ecb90f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIType: 5
+  rend: {fileID: 618113706}
 --- !u!111 &618113701
 Animation:
   m_ObjectHideFlags: 0
@@ -4833,7 +4848,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: None  milliseconds
+  m_text: .150 milliseconds
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5023,6 +5038,7 @@ GameObject:
   - component: {fileID: 804841074}
   - component: {fileID: 804841079}
   - component: {fileID: 804841078}
+  - component: {fileID: 804841077}
   - component: {fileID: 804841076}
   - component: {fileID: 804841075}
   - component: {fileID: 804841080}
@@ -5094,6 +5110,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &804841077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804841073}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d57cbfa78f8422780a43362265c68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rend: {fileID: 804841078}
+  vidNum: 1
 --- !u!23 &804841078
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5639,6 +5669,7 @@ GameObject:
   - component: {fileID: 865247596}
   - component: {fileID: 865247601}
   - component: {fileID: 865247600}
+  - component: {fileID: 865247599}
   - component: {fileID: 865247598}
   - component: {fileID: 865247597}
   - component: {fileID: 865247602}
@@ -5710,6 +5741,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &865247599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865247595}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d57cbfa78f8422780a43362265c68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rend: {fileID: 865247600}
+  vidNum: 2
 --- !u!23 &865247600
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6026,6 +6071,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 907292808}
+  - component: {fileID: 907292809}
   - component: {fileID: 907292810}
   m_Layer: 0
   m_Name: Player
@@ -6049,6 +6095,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &907292809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907292807}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bd3aa590ece47c8944dd0ff52b6c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strikeZone: {fileID: 1324666293}
+  BallType: {fileID: 986622249}
+  BallScore: {fileID: 1360710656}
+  score1: {fileID: 321787787}
+  score2: {fileID: 922640303}
+  score3: {fileID: 231206611}
+  score4: {fileID: 327207564}
+  score5: {fileID: 1009587960}
+  score6: {fileID: 2059282557}
+  score7: {fileID: 1707211440}
+  score8: {fileID: 989171336}
+  score9: {fileID: 1194736864}
+  score10: {fileID: 353319859}
+  ball1: {fileID: 984186461}
+  ball2: {fileID: 304609205}
+  ball3: {fileID: 437404701}
+  ball4: {fileID: 36233257}
+  ball5: {fileID: 1020924379}
+  ball6: {fileID: 2042336100}
+  ball7: {fileID: 1149807952}
+  ball8: {fileID: 324560570}
+  ball9: {fileID: 397070195}
+  ball10: {fileID: 273027249}
 --- !u!114 &907292810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6084,7 +6165,6 @@ MonoBehaviour:
   ball8: {fileID: 324560570}
   ball9: {fileID: 397070195}
   ball10: {fileID: 273027249}
-  textMeshPro: {fileID: 732175734}
 --- !u!1 &922640301
 GameObject:
   m_ObjectHideFlags: 0
@@ -6177,7 +6257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 8
-  ball: {fileID: 4967994903912366226, guid: 030001f101fcbc14da9d8961de4dabfe, type: 3}
 --- !u!135 &951370178
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6912,6 +6991,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1091526157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3360342882181247075}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ae86cc5d62b46abb908e13ecb90f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIType: 3
+  rend: {fileID: 3360342882181247077}
 --- !u!1 &1104353747
 GameObject:
   m_ObjectHideFlags: 0
@@ -7403,6 +7496,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149807950}
   m_CullTransparentMesh: 1
+--- !u!114 &1150768525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202150109841433247}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ae86cc5d62b46abb908e13ecb90f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIType: 5
+  rend: {fileID: 6202150109841433237}
 --- !u!1 &1194736862
 GameObject:
   m_ObjectHideFlags: 0
@@ -7664,7 +7771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ae86cc5d62b46abb908e13ecb90f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIType: 4
+  UIType: 5
   rend: {fileID: 1265198096}
 --- !u!111 &1265198091
 Animation:
@@ -10115,6 +10222,7 @@ GameObject:
   - component: {fileID: 1764844452}
   - component: {fileID: 1764844451}
   - component: {fileID: 1764844450}
+  - component: {fileID: 1764844449}
   - component: {fileID: 1764844448}
   - component: {fileID: 1764844447}
   - component: {fileID: 1764844453}
@@ -10172,6 +10280,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1764844449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764844446}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d57cbfa78f8422780a43362265c68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rend: {fileID: 1764844450}
+  vidNum: 0
 --- !u!23 &1764844450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14278,6 +14400,7 @@ GameObject:
   - component: {fileID: 3360342882181247072}
   - component: {fileID: 3360342882181247074}
   - component: {fileID: 3360342882181247099}
+  - component: {fileID: 1091526157}
   - component: {fileID: 3360342882181247080}
   m_Layer: 5
   m_Name: TopCanvas
@@ -17591,6 +17714,7 @@ GameObject:
   - component: {fileID: 6202150109841433233}
   - component: {fileID: 6202150109841433232}
   - component: {fileID: 6202150109841433239}
+  - component: {fileID: 1150768525}
   - component: {fileID: 6202150109841433248}
   m_Layer: 5
   m_Name: LeftCanvas
@@ -17611,7 +17735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6557590def153854aa0603737bf15200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIType: 4
+  UIType: 5
   rend: {fileID: 6202150109841433237}
 --- !u!224 &6202150109933482196
 RectTransform:
@@ -18883,6 +19007,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6449288351755770206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7910349948086137708}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ae86cc5d62b46abb908e13ecb90f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIType: 1
+  rend: {fileID: 7910349948086137697}
 --- !u!224 &6449288351882198272
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20731,6 +20869,7 @@ GameObject:
   - component: {fileID: 7910349948086137709}
   - component: {fileID: 7910349948086137698}
   - component: {fileID: 7910349948086137700}
+  - component: {fileID: 6449288351755770206}
   - component: {fileID: 7910349948086137710}
   m_Layer: 5
   m_Name: RightCanvas

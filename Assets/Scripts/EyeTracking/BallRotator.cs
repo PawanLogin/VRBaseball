@@ -5,6 +5,8 @@ using UnityEngine;
 public class BallRotator : MonoBehaviour
 {
     public float speedMultiplier = 1;
+    public GameObject ball;
+    GameObject _ball;
 
     // Start is called before the first frame update
     void Start()
@@ -16,5 +18,26 @@ public class BallRotator : MonoBehaviour
     void Update()
     {
         transform.Rotate(Random.Range(1,2) * speedMultiplier, Random.Range(1, 2) * speedMultiplier, Random.Range(1, 2) * speedMultiplier);
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (SwingTriger.BaseballController.instance.isballthrough && SwingTriger.BaseballController.instance.isStrikes)
+            {
+                Vector3 ballPos = this.transform.position;
+                ballPos = new Vector3(ballPos.x, ballPos.y - 0.08f, ballPos.z);
+                _ball = Instantiate(ball, ballPos, Quaternion.identity);
+                StartCoroutine(DestroyObject());
+            }
+           
+
+        }
+    }
+
+    IEnumerator DestroyObject()
+    {
+        yield return new WaitForSeconds(3f);
+        if (_ball != null)
+        {
+            Destroy(_ball);
+        }
     }
 }

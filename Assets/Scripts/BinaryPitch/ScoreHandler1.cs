@@ -24,7 +24,8 @@ public class ScoreHandler1 : MonoBehaviour
     private int pitchNumber = 0;
 
     public static List<int> scores = new List<int>();
-    public static List<int> ballTypes = new List<int>(10);
+   // public static List<string> ballTypes = new List<string>();
+     public static List<int> ballTypes = new List<int>();
 
     public Text BallType;
     public Text BallScore;
@@ -78,11 +79,11 @@ public class ScoreHandler1 : MonoBehaviour
         if (RayCasting.menu1)
         {
             //print("Menu1");
-            SetValues1();
+           // SetValues1();
         }
         else
         {
-            SetValues2();
+          //  SetValues2();
         }
 
         if (RayCasting.gameJustStarted)
@@ -119,33 +120,8 @@ public class ScoreHandler1 : MonoBehaviour
         idNum++;
 
         //Score takes the guess, and ballType takes the correct answer
-        int tempNum = 0;
 
-        switch (BaseballController1.pitchTypes)
-        {
-            case 0:
-                tempNum = 0;
-                break;
-
-            case 1:
-                tempNum = 1;
-                break;
-
-            case 2:
-                tempNum = 3;
-                break;
-
-            case 3:
-                tempNum = 0;
-                break;
-
-            case 4:
-                tempNum = 4;
-                break;
-        }
-
-        ballTypes.Add(tempNum);
-
+        ballTypes.Add(BaseballController1.pitchTypes);
         scores.Add(RayCasting.guess);
 
         int nun = ballTypes.Count;
@@ -153,7 +129,10 @@ public class ScoreHandler1 : MonoBehaviour
         //print("Saving Guess: " + RayCasting.guess);
         //print("Saving Throw: " + BaseballController1.pitchTypes);
 
-        updateText(RayCasting.guess, tempNum);
+
+
+
+        updateText(RayCasting.guess, BaseballController1.pitchTypes);
         if (idNum > 14)
         {
             endGame();
@@ -198,7 +177,6 @@ public class ScoreHandler1 : MonoBehaviour
         //0 1 2 3
         //0 1 2 3 4 5 6 
 
-        //I believe that this is boolean that works for correct/incorrect words.
 
         if (score == ballType)
         {
