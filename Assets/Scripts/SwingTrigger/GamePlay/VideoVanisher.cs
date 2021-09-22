@@ -1,6 +1,7 @@
 using UnityEngine;
 
-
+namespace SwingTriger
+{
     public class VideoVanisher : MonoBehaviour
     {
         public MeshRenderer rend;
@@ -19,4 +20,4 @@ using UnityEngine;
             }
         }
     }
-
+}

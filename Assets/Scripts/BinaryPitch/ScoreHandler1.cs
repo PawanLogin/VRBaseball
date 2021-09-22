@@ -24,7 +24,8 @@ public class ScoreHandler1 : MonoBehaviour
     private int pitchNumber = 0;
 
     public static List<int> scores = new List<int>();
-    public static List<int> ballTypes = new List<int>(10);
+   // public static List<string> ballTypes = new List<string>();
+     public static List<int> ballTypes = new List<int>();
 
     public Text BallType;
     public Text BallScore;
@@ -78,11 +79,11 @@ public class ScoreHandler1 : MonoBehaviour
         if (RayCasting.menu1)
         {
             //print("Menu1");
-            SetValues1();
+           // SetValues1();
         }
         else
         {
-            SetValues2();
+          //  SetValues2();
         }
 
         if (RayCasting.gameJustStarted)
