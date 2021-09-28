@@ -10,7 +10,9 @@ public enum PitchType{FourSeamFastball, TwoSeamFastball, ChangeUp, Slider, Curve
 public class GameplayController : MonoBehaviour
 {
     public int totalQuestions;
-    public List<PitchType> myAnswersPitchList, correctAnswersPitchList;
+    public List<PitchType> correctAnswersPitchList;
+        public List<string> myAnswersPitchList;
+        public List<string> BallTypeList;
     public List<float> reactionTimeList;
     public static GameplayController instance;
 
@@ -47,9 +49,9 @@ public class GameplayController : MonoBehaviour
         correctAnswersPitchList.Clear();
         reactionTimeList.Clear();
     }
-    public void AddMyAnswersEntry(PitchType pType)
+    public void AddMyAnswersEntry(string aType)
     {
-        myAnswersPitchList.Add(pType);
+        myAnswersPitchList.Add(aType);
     }
     public void AddCorrectAnswersEntry(PitchType pType)
     {

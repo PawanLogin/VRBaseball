@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.UI;
+using TMPro;
 
 // Abhiwan added the namespace
 namespace SwingTriger
@@ -33,10 +35,11 @@ namespace SwingTriger
 
         private bool doOnce = true;
 
-        private int timer = 200;
+        private int timer = 50;
 
-        int endPoses;
+        public int endPoses;
         public static int pitchTypes;
+        public static PitchType pitchTypeEnum;
 
         [Range(.1f, 10)] public float tweenLength = 3;
         public AnimationCurve tweenSpeed;
@@ -52,6 +55,14 @@ namespace SwingTriger
         internal bool isStrikes;
         internal float startTimeAbhiwan;
         internal bool isballthrough;
+        internal bool isSwing = false;
+        internal bool playAgain = true;
+
+        public TextMeshProUGUI decisionMade;
+        public TextMeshProUGUI Restul;
+        public TextMeshProUGUI pitchType;
+        public TextMeshProUGUI BallType;
+
         public static BaseballController instance;
 
         private void Awake()
@@ -64,310 +75,356 @@ namespace SwingTriger
         void Start()
         {
             posADefault = posA;
-           
+            Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition}");    
 
-            Balls.Add(6);
-            Balls.Add(7);
-            Balls.Add(8);
+            Balls.Add(1);
+            Balls.Add(9);
             Balls.Add(11);
-            Balls.Add(12);
-            Balls.Add(13);
-            Balls.Add(15);
-            Balls.Add(17);
-            Balls.Add(19);
-            Balls.Add(22);
-            Balls.Add(23);
-            Balls.Add(26);
-            Balls.Add(27);
-            Balls.Add(28);
+            Balls.Add(14);
+            Balls.Add(16);
+            Balls.Add(18);
+            Balls.Add(24);
+            Balls.Add(29);
 
             // Added by Abhiwan
-            Strikes.Add(0);
             // ===============================
-            Strikes.Add(1);
+            Strikes.Add(0);
             Strikes.Add(2);
             Strikes.Add(3);
             Strikes.Add(4);
             Strikes.Add(5);
-            Strikes.Add(9);
+            Strikes.Add(6);
+            Strikes.Add(7);
+            Strikes.Add(8);
             Strikes.Add(10);
-            Strikes.Add(14);
-            Strikes.Add(16);
-            Strikes.Add(18);
+            Strikes.Add(12);
+            Strikes.Add(13);
+            Strikes.Add(15);
+            Strikes.Add(17);
+            Strikes.Add(19);
             Strikes.Add(20);
             Strikes.Add(21);
-            Strikes.Add(24);
+            Strikes.Add(22);
+            Strikes.Add(23);
             Strikes.Add(25);
-            Strikes.Add(29);
+            Strikes.Add(26);
+            Strikes.Add(27);
+            Strikes.Add(28);
+            Strikes.Add(30);
         }
 
         bool GamePaused = false;
         float FloatingPauseTime = 3;
         void Update()
         {
-            //if(GamePaused)
-            //{
-            //    FloatingPauseTime -= Time.deltaTime;
+            /*            if(GamePaused)
+                        {
+                            FloatingPauseTime -= Time.deltaTime;
 
-            //    if (FloatingPauseTime <= 0)
-            //    {
-            //        Debug.Log("is pause..");
-            //        GamePaused = false;
-            //    }
+                            if (FloatingPauseTime <= 0)
+                            {
+                                Debug.Log("is pause..");
+                                GamePaused = false;
+                            }
 
-            //    return;
-            //}
+                            return;
+                        }*/
 
             if (SwingTriger.ScoreHandler.GameOver)
             {
-                videoPlayer.Pause();
-                videoPlayer1.Pause();
-                videoPlayer2.Pause();
-               // Debug.Log("1 .............");
+                videoPlayer.Stop();
+                videoPlayer1.Stop();
+                videoPlayer2.Stop();
+                // Debug.Log("1 .............");
             }
-           // Debug.Log("videoPlayer.frame "+ videoPlayer.frame);
+            // Debug.Log("videoPlayer.frame "+ videoPlayer.frame);
             if (videoPlayer.frame > 1 && videoPlayer.frame <= 60)
             {
                 //Debug.Log("2 .............");
-                SwingTriger.ScoreHandler.strikeZoneVisible = true;
+                //SwingTriger.ScoreHandler.strikeZoneVisible = true;
                 if (!SwingTriger.ScoreHandler.GameOver && (isBall || isStrikes))
                 {
-                   // Debug.Log("2.5f .............");
-                    DrawLine();
-                    SwingTriger.UIController.settingsOpen = true;
-                    //FloatingPauseTime = 3;
-                    //GamePaused = true;
+                    // Debug.Log("2.5f .............");
+                    // DrawLine();
+                    //SwingTriger.UIController.settingsOpen = true;
+                    // FloatingPauseTime = 3;
+                    // GamePaused = true;
                     // SwingTriger.ScoreHandler.GameOver = true;
                     // Time.timeScale = 0;
                     //SwingTriger.ScoreHandler.GameOver = true;
                     //SwingTriger.ScoreHandler.PitcherIntervalSwingTrigger = true;
                 }
-            } 
+            }
             else
             {
-               //Debug.Log("3 .............");
-                lineRenderer.enabled = false;
-                SwingTriger.ScoreHandler.strikeZoneVisible = false;
-                SwingTriger.UIController.settingsOpen = false;
+                //Debug.Log("3 .............");
+                // lineRenderer.enabled = false;
+                // SwingTriger.ScoreHandler.strikeZoneVisible = false;
+                // SwingTriger.UIController.settingsOpen = false;
             }
 
             //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
 
             //This part chooses what type of ball to throw
-           // Debug.LogError($"4 A...isTweening ......{isTweening}....");
+            // Debug.LogError($"4 A...isTweening ......{isTweening}....");
             if (isTweening)
             {
-               // Debug.Log($"4 B inside condition...pitchTypes ......{pitchTypes}....");
+                // Debug.Log($"4 B inside condition...pitchTypes ......{pitchTypes}....");
                 switch (pitchTypes)
                 {
                     case 0:
                         //4S Fastball
                         handle.localPosition = handleDefault.localPosition;
+                        pitchType.text = PitchType.FourSeamFastball.ToString();
+                        pitchTypeEnum = PitchType.FourSeamFastball;
                         break;
 
                     case 1:
                         //CurveBall
                         handle.localPosition = new Vector3(handleDefault.localPosition.x + -.4f, handleDefault.localPosition.y + .4f, handleDefault.localPosition.z - .4f);
+                        pitchType.text = PitchType.Curveball.ToString();
+                        pitchTypeEnum = PitchType.Curveball;
                         break;
 
                     case 2:
                         //Slider
                         handle.localPosition = new Vector3(handleDefault.localPosition.x + .5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                        pitchType.text = PitchType.Slider.ToString();
+                        pitchTypeEnum = PitchType.Slider;
                         break;
 
                     case 3:
                         //2S Fastball
                         handle.localPosition = new Vector3(handleDefault.localPosition.x - 1.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                        pitchType.text = PitchType.TwoSeamFastball.ToString();
+                        pitchTypeEnum = PitchType.TwoSeamFastball;
                         break;
 
                     case 4:
                         //ChangeUp
                         handle.localPosition = new Vector3(handleDefault.localPosition.x + .3f, handleDefault.localPosition.y + .8f, handleDefault.localPosition.z - .2f);
+                        pitchType.text = PitchType.ChangeUp.ToString();
+                        pitchTypeEnum = PitchType.ChangeUp;
                         break;
                 }
 
                 float sizeMultiplier = 0.12f;
                 //Chooses between 31 different ending positions
-               // Debug.Log($"5 ...endPoses .........." + endPoses);
+                // Debug.Log($"5 ...endPoses .........." + endPoses);
                 switch (endPoses)
                 {
                     case 0:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, (posBDefault.localPosition.y + .83f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 1:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .8f, (posBDefault.localPosition.y + .7f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 2:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .4f, (posBDefault.localPosition.y + .6f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 3:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, (posBDefault.localPosition.y + .6f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 4:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, (posBDefault.localPosition.y + .6f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 5:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .62f, (posBDefault.localPosition.y + .32f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 6:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .4f, (posBDefault.localPosition.y + .32f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 7:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, (posBDefault.localPosition.y + .32f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 8:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, (posBDefault.localPosition.y + .32f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 9:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .55f, (posBDefault.localPosition.y + .32f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 10:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .62f, posBDefault.localPosition.y, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 11:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .4f, posBDefault.localPosition.y, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 12:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, posBDefault.localPosition.y, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 13:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, posBDefault.localPosition.y, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 14:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .55f, posBDefault.localPosition.y, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 15:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .24f, (posBDefault.localPosition.y - .16f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 16:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .7f, (posBDefault.localPosition.y - .16f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 17:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .13f, (posBDefault.localPosition.y - .16f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 18:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .62f, (posBDefault.localPosition.y - .5f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 19:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .4f, (posBDefault.localPosition.y - .5f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 20://confuse
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, (posBDefault.localPosition.y - .99f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 21://confuse
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .62f, (posBDefault.localPosition.y - .99f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 22:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, (posBDefault.localPosition.y - .5f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 23:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, (posBDefault.localPosition.y - .5f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 24:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .55f, (posBDefault.localPosition.y - .5f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 25:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .62f, (posBDefault.localPosition.y - .75f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 26:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x - .4f, (posBDefault.localPosition.y - .75f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 27:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x, (posBDefault.localPosition.y - .75f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 28:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, (posBDefault.localPosition.y - .75f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 29:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .55f, (posBDefault.localPosition.y - .75f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
 
                     case 30:
                         posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, (posBDefault.localPosition.y - .99f) * sizeMultiplier, posBDefault.localPosition.z);
+                        Debug.Log($"this is posB {posB.localPosition} and the value is posBDefault x is {posBDefault.localPosition.x}");
                         break;
                 }
+
+                
             }
 
             //Debug.Log($"6A ...transform.position.z .....{transform.position.z}.....");
             //This removes the ball when the ball reaches the end of the line
             if (transform.position.z <= .53f)
             {
-               // Debug.Log($"6B inside condition...transform.position.z .....{transform.position.z}.....");
+                // Debug.Log($"6B inside condition...transform.position.z .....{transform.position.z}.....");
                 transform.position = new Vector3(0, -20, 0);
                 isTweening = false;
                 tweenTimer = 0;
             }
 
-            // Debug.Log($"SwingTriger.ScoreHandler.GameOver {!SwingTriger.ScoreHandler.GameOver} !isTweening {!isTweening} !videoPlayer.isPlaying {!videoPlayer.isPlaying}");
-            if (!SwingTriger.ScoreHandler.GameOver && !isTweening && !videoPlayer.isPlaying)
+            if (!SwingTriger.ScoreHandler.GameOver && !isTweening && !videoPlayer.isPlaying  && playAgain)
             {
-               // Debug.Log("1 ... Game Start from here......");
+               
                 timer++;
-              //  Debug.Log(" ...timer " + timer);
-                if (timer > 60)
+              
+                if (timer > 100)
                 {
-                   // Debug.Log("7C ...1ainside " + timer);
+                  
                     timer = 0;
                     playVid();
-                   
                 }
 
             }
-          //  Debug.Log($"8 ...videoPlayer.frame ....{videoPlayer.frame}......");
+            //  Debug.Log($"8 ...videoPlayer.frame ....{videoPlayer.frame}......");
             if (videoPlayer.frame >= 100 && doOnce && videoPlayer.frame <= 104)
             {
                 startTimeAbhiwan = Time.time;
                 isballthrough = true;
-                 Debug.Log("Start time ...."+ startTimeAbhiwan);
-               // Debug.Log("4 ...Now I come here ...");
+                // Debug.Log("Start time ...."+ startTimeAbhiwan);
+                // Debug.Log("4 ...Now I come here ...");
                 doOnce = false;
                 PlayTween();
+               // Debug.Log("videoPlayer.frame........" + videoPlayer.frame);
+                //Debug.Log($"8 ...videoPlayer.frame ....{videoPlayer.frame}......");
             }
             //Debug.Log("10 ...videoPlayer.frame .........." + videoPlayer.frame);
-            if (videoPlayer.frame >= 110)
+            if (videoPlayer.frame >= 110 && videoPlayer.isPlaying)
             {
-               // Debug.Log("videoPlayer.frame........" + videoPlayer.frame);
+                // Debug.Log("videoPlayer.frame........" + videoPlayer.frame);
                 //videoPlayer.frame = 1;
-                videoPlayer.Pause();
-                videoPlayer1.Pause();
-                videoPlayer2.Pause();
+                videoPlayer.Stop();
+                videoPlayer1.Stop();
+                videoPlayer2.Stop();
+
+                OpenSettingPanel();
                
                 // Time.timeScale = 0;
             }
-           // Debug.Log("11 ...isTweening .........." + isTweening);
+            // Debug.Log("11 ...isTweening .........." + isTweening);
             if (isTweening)
             {
                 //Controlls baseball speed with the settings menu
-               // Debug.Log("11 B..inside   .isTweening .........." + isTweening);
+                // Debug.Log("11 B..inside   .isTweening .........." + isTweening);
                 switch (SwingTriger.RayCasting.velocitySetting)
                 {
                     case 1:
@@ -413,14 +470,14 @@ namespace SwingTriger
                 tweenTimer += Time.deltaTime * speedMultiplier;
                 float p = tweenTimer / tweenLength;
                 percent = tweenSpeed.Evaluate(p);
-              //  Debug.Log($"11 ...tweenTimer ..{tweenTimer }........tweenLength { tweenLength}");
+                //  Debug.Log($"11 ...tweenTimer ..{tweenTimer }........tweenLength { tweenLength}");
                 if (tweenTimer > tweenLength)
                 {
                     tweenTimer = 0;
                     percent = 0;
                     isTweening = false;
                     transform.position = new Vector3(0, -20, 0);
-                  //  Time.timeScale = 0;
+                    //  Time.timeScale = 0;
                 }
             }
             //Debug.Log("12 ...percent .........." + percent);
@@ -436,8 +493,8 @@ namespace SwingTriger
             {
                 transform.position = new Vector3(0, -20, 0);
             }
-          
 
+           
         }
 
         bool isFirstTime = true;
@@ -447,13 +504,38 @@ namespace SwingTriger
             StartCoroutine(Delay());
         }
 
-       IEnumerator Delay()
+        public void OpenSettingPanel()
+        {
+            StartCoroutine(OpenPaenl());
+        }
+
+        IEnumerator OpenPaenl()
+        {
+            SwingTriger.ScoreHandler.strikeZoneVisible = true;
+
+            if (!SwingTriger.ScoreHandler.GameOver && (isBall || isStrikes))
+            {
+                playAgain = false;
+                yield return new WaitForSeconds(1f);
+                SwingTriger.UIController.settingsOpen = true;
+                DrawLine();
+                yield return new WaitForSeconds(6f);
+                SwingTriger.UIController.settingsOpen = false;
+                lineRenderer.enabled = false;
+                SwingTriger.ScoreHandler.strikeZoneVisible = false;
+                playAgain = true;
+            }
+        }
+
+        IEnumerator Delay()
         {
             yield return new WaitForSeconds(0);
-          //  Debug.Log("3 ...NOw I Called play video ... ");
+           // Debug.Log("3 ...NOw I Called play video ... ");
             videoPlayer.frame = 1;
             videoPlayer1.frame = 1;
             videoPlayer2.frame = 1;
+
+           // Debug.Log($"videoPlayer.frame........{ videoPlayer.frame} , {videoPlayer1.frame} , {videoPlayer2.frame} , {videoPlayer.frameCount} , {videoPlayer1.frameCount} , {videoPlayer2.frameCount}");
 
             videoPlayer.Play();
             videoPlayer1.Play();
@@ -473,8 +555,8 @@ namespace SwingTriger
 
         public void PlayTween()
         {
-          //  Debug.Log("5 ..Now i called the play tween ...");
-           // Debug.Log($"9 ...PlayTween .SwingTriger.RayCasting.pitcher...{SwingTriger.RayCasting.pitcher}..");
+            //  Debug.Log("5 ..Now i called the play tween ...");
+            // Debug.Log($"9 ...PlayTween .SwingTriger.RayCasting.pitcher...{SwingTriger.RayCasting.pitcher}..");
             Vector3 pitcherOffset = new Vector3(0, 0, 0);
 
             switch (SwingTriger.RayCasting.pitcher)
@@ -500,7 +582,7 @@ namespace SwingTriger
 
             //posA.position = posADefault.position;
             //posA.position = new Vector3(posA.position.x + pitcherOffset.x, posA.position.y + pitcherOffset.y, posA.position.z + pitcherOffset.z);
-           
+
 
             tweenTimer = 0;
             isTweening = true;
@@ -518,41 +600,21 @@ namespace SwingTriger
              * Make method that adjusts endPoses before it goes into this new function
              * 
              */
-          
-            // Invoke("DrawLine",0.5f);
-            // DrawLine();
-            if (Strikes.Contains(endPoses))
-            {
-              //  Debug.Log("9C Strickes ...............");
-                isStrikes = true;
-                isBall = false;
-                //FloatingPauseTime = 3;
-                //GamePaused = true;
-            }
-            else if (Balls.Contains(endPoses))
-            {
-               // Debug.Log("9D Balls .............");
-                isBall = true;
-                isStrikes = false;
-                //FloatingPauseTime = 3;
-                //GamePaused = true;
-                //  DrawLine();
-            }
-          
-            
             switch (SwingTriger.RayCasting.accuracySetting)
             {
                 case 0: // Just does the code like it used to, as there are 50/50 ball and strike options
-                   // print("9D  ..........0");
+                        // print("9D  ..........0");
 
                     endPoses = Random.Range(0, 31);
+                   // endPoses = 6;
+                    Debug.Log($"111 ...............{endPoses}");
                     break;
 
                 case 1:
                     int i = Random.Range(0, 101);
                     if (i <= 85) //use balls
                     {
-                       print("9D  ......... 1");
+                        print("9D  ......... 1");
                         int temp = Random.Range(0, Balls.Count + 1);
                         endPoses = Balls[temp];
 
@@ -581,19 +643,90 @@ namespace SwingTriger
                     }
                     break;
             }
-         
+            // Invoke("DrawLine",0.5f);
+            // DrawLine();
+            if (Strikes.Contains(endPoses))
+            {
+                 // Debug.Log($"111 ...............{endPoses}");
+                isStrikes = true;
+                isBall = false;
+                BallType.text = "Strikes";
+                GameplayController.instance.BallTypeList.Add("Strikes");
+                //FloatingPauseTime = 3;
+                //GamePaused = true;
+            }
+            else if (Balls.Contains(endPoses))
+            {
+               // Debug.Log($"111 ...............{endPoses}");
+                isBall = true;
+                isStrikes = false;
+                BallType.text = "Ball";
+                GameplayController.instance.BallTypeList.Add("Ball");
+                //FloatingPauseTime = 3;
+                //GamePaused = true;
+                //  DrawLine();
+            }
+
+
+          
+
         }
 
 
         private void DrawLine()
         {
-            if (isBall)
-                lineRenderer.material = lineRendererMat_R;
-            else if (isStrikes)
+            if (isBall && !isSwing)
+            {
                 lineRenderer.material = lineRendererMat_G;
+                //Debug.Log($"this is isBall {isBall} and this is isSwing {isSwing}");
+               // Debug.Log($"22222");
+                Restul.text = "Correct";
+                decisionMade.text = "Didn’t Swing";
+                GameplayController.instance.reactionTimeList.Add(ScoreHandler.timeSpan);
+                GameplayController.instance.myAnswersPitchList.Add(Restul.text);
+                GameplayController.instance.correctAnswersPitchList.Add(pitchTypeEnum);
+                FinalResultsCanvasController.instance.correctAnsCount++;
+            }
+            else if (isBall && isSwing)
+            {
+                lineRenderer.material = lineRendererMat_R;
+               //Debug.Log($"this is isBall {isBall} and this is isSwing {isSwing}");
+               // Debug.Log($"22222");
+                Restul.text = "Incorrect";
+                decisionMade.text = "Swing";
+                GameplayController.instance.reactionTimeList.Add(ScoreHandler.timeSpan);
+                GameplayController.instance.myAnswersPitchList.Add(Restul.text);
+                GameplayController.instance.correctAnswersPitchList.Add(pitchTypeEnum);
+            }
 
-            lineRenderer.positionCount = curveResolution+1;
-           
+            if (isStrikes && isSwing)
+            {
+                lineRenderer.material = lineRendererMat_G;
+                //Debug.Log($"this is isStrikes {isStrikes} and this is isSwing {isSwing}");
+               // Debug.Log($"22222");
+                Restul.text = "Correct";
+                decisionMade.text = "Swing";
+                GameplayController.instance.reactionTimeList.Add(ScoreHandler.timeSpan);
+                GameplayController.instance.myAnswersPitchList.Add(Restul.text);
+                GameplayController.instance.correctAnswersPitchList.Add(pitchTypeEnum);
+                FinalResultsCanvasController.instance.correctAnsCount++;
+            }
+            else if(isStrikes && !isSwing)
+            {
+                lineRenderer.material = lineRendererMat_R;
+               // Debug.Log($"this is isStrikes {isStrikes} and this is isSwing {isSwing}");
+                //Debug.Log($"22222");
+                Restul.text = "Incorrect";
+                decisionMade.text = "Didn’t Swing";
+                GameplayController.instance.reactionTimeList.Add(ScoreHandler.timeSpan);
+                GameplayController.instance.myAnswersPitchList.Add(Restul.text);
+                GameplayController.instance.correctAnswersPitchList.Add(pitchTypeEnum);
+            }
+            ScoreHandler.timeSpan = 0;
+
+
+            lineRenderer.positionCount = curveResolution + 1;
+
             lineRenderer.startWidth = .1f;
             lineRenderer.endWidth = .01f;
 
@@ -606,13 +739,16 @@ namespace SwingTriger
                 lineRenderer.enabled = true;
                 lineRenderer.SetPosition((i - 1), p1);
                 p1 = p2;
-               // Debug.Log($"P1 position... {i-1} "+p1);
+                // Debug.Log($"P1 position... {i-1} "+p1);
             }
-            lineRenderer.SetPosition(curveResolution-1, p1);
-           // Debug.Log($"posB position... {curveResolution} " + posB);
+            lineRenderer.SetPosition(curveResolution - 1, p1);
+             Debug.Log($"posB position... {posB.position}  and local position is {posB.localPosition}"  );
             lineRenderer.SetPosition(curveResolution, posB.position);
-           // Time.timeScale = 0;
-           // Debug.Log(" Time.timeScale " + Time.timeScale);
+            
+            // Time.timeScale = 0;
+            // Debug.Log(" Time.timeScale " + Time.timeScale);
+
+            isSwing = false;
         }
 
 
@@ -639,8 +775,8 @@ namespace SwingTriger
             }
             Gizmos.DrawLine(p1, posB.position);
         }
-       
+
     }
 
-   
+
 }
