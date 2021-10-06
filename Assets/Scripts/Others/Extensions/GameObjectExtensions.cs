@@ -11,7 +11,16 @@ static public class GameObjectExtensions
         {
             GameObject.Destroy(go.transform.GetChild(i).gameObject);
         }
-    }   
+    }
+
+    static public void ClearButNotZeroIndex(this GameObject go)
+    {
+        for (int i = go.transform.childCount - 1; i >= 1; i--)
+        {
+            GameObject.Destroy(go.transform.GetChild(i).gameObject);
+        }
+    }
+
     static public void ClearImmediate(this GameObject go)
     {
         for (int i = go.transform.childCount - 1; i >= 0; i--)

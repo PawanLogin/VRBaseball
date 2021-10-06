@@ -31,8 +31,6 @@ public class BaseballController1 : MonoBehaviour
     public int curveResolution = 10;
     private float speedMultiplier = 5;
 
-    private bool overRide = false;
-
     private bool doOnce = true;
 
     private int timer = 200;
@@ -47,6 +45,7 @@ public class BaseballController1 : MonoBehaviour
     public static bool isTweening = false;
     public static bool hasChosenAnswer = true;
     public static bool hasThrownOne = false;
+    public static bool playingVid;
 
 
     void Start()
@@ -59,6 +58,14 @@ public class BaseballController1 : MonoBehaviour
 
     void Update()
     {
+        if (videoPlayer1.isPlaying)
+        {
+            playingVid = true;
+        }
+        else
+        {
+            playingVid = false;
+        }
 
         if (ScoreHandler1.GameOver)
         {
@@ -67,24 +74,25 @@ public class BaseballController1 : MonoBehaviour
             videoPlayer2.Pause();
         }
 
-        if (videoPlayer.frame > 1 && videoPlayer.frame <= 60)
+        if (videoPlayer.frame > 1 && videoPlayer.frame <= 60) //This is the code that controls the "correct" and "incorrect" words
         {
-            overRide = true;
             rend1.enabled = false;
             rend2.enabled = false;
             ScoreHandler1.strikeZoneVisible = true;
+            hasChosenAnswer = false;
             //we need to know whether or not they got the answer correct, then enable the true one here   
         }
         else
         {
             ScoreHandler1.strikeZoneVisible = false;
-            overRide = false;
 
         }
 
         //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
 
+
         //This part chooses what type of ball to throw
+
 
         if (isTweening)
         {
@@ -102,7 +110,7 @@ public class BaseballController1 : MonoBehaviour
 
                 case 2:
                     //Slider
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + .5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    handle.localPosition = new Vector3(handleDefault.localPosition.x + -.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
                     break;
 
                 case 3:
@@ -353,7 +361,7 @@ public class BaseballController1 : MonoBehaviour
         }
         else
         {
-            if (hasChosenAnswer && !ScoreHandler1.GameOver && hasThrownOne && !overRide)
+            if (hasChosenAnswer && !ScoreHandler1.GameOver && hasThrownOne)   //I think the problem is that "hasChosenAnswer" is correct after the first answer, and never resets
             {
                 if (ScoreHandler1.correctScore)
                 {
@@ -394,7 +402,7 @@ public class BaseballController1 : MonoBehaviour
         rend1.enabled = false;
         rend2.enabled = false;
 
-        //doOnce = true;
+        doOnce = true;
     }
 
     public void PlayTween()
@@ -402,24 +410,25 @@ public class BaseballController1 : MonoBehaviour
         Vector3 pitcherOffset = new Vector3(0, 0, 0);
 
 
-
-        switch (pitcher)
+        switch (RayCasting.pitcher)
         {
             //Leave this one alone. Pitcher one should be the default position
-            case 1:
+            case 0:
                 posA.position = new Vector3(posADefault.position.x, posADefault.position.y, posADefault.position.z);
                 break;
 
             //Change amount needed to adjust for pitcher positioning here
-            case 2:
+            case 1:
                 posA.position = posX.position;
                 break;
 
             //Change amount needed to adjust for pitcher positioning here
-            case 3:
+            case 2:
                 posA.position = posY.position;
                 break;
         }
+
+
         tweenTimer = 0;
         isTweening = true;
         endPoses = Random.Range(0, 31);
