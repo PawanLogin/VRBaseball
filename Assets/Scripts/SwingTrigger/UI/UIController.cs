@@ -11,6 +11,10 @@ namespace SwingTriger
         public int UIType;
         public Canvas rend;
         public static bool settingsOpen = false;
+        public static bool playAgainOpen = false;
+        public static bool finalResultOpen = false;
+        public static bool isFirstTimePlay = true;
+        public static bool isInstructionOpen = false;
 
         void Start()
         {
@@ -183,16 +187,28 @@ namespace SwingTriger
                                     rend.enabled = false;
                                 }
                                 break;
+                            case 6:
+                                if (isInstructionOpen)
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = false;
+                                }
+                                break;
                         }
                     }
-                    else
+                    else if(isFirstTimePlay)
                     {
                         //Debug.Log("else ... ");
                         // Debug.Log($"this gameobj nam {this.gameObject.name} else UIType ... " + UIType);
                         switch (UIType)
                         {
                             case 1:
-                                 rend.enabled = true;
+                                rend.enabled = true;
                                 //if (!SwingTriger.ScoreHandler.PitcherIntervalSwingTrigger)
                                 //{
                                 //    rend.enabled = true;
@@ -215,6 +231,7 @@ namespace SwingTriger
                                 rend.enabled = false;
                                 break;
                             case 4:
+                                //Debug.Log($"this is final result panel");
                                 rend.enabled = false;
                                 break;
                             case 5:
@@ -226,6 +243,93 @@ namespace SwingTriger
                                 else
                                 {
                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = false;
+                                }
+                                break;
+                            case 6:
+                                if (isInstructionOpen)
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = false;
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        //Debug.Log("else ... ");
+                        // Debug.Log($"this gameobj nam {this.gameObject.name} else UIType ... " + UIType);
+                        switch (UIType)
+                        {
+                            case 1:
+                                if (playAgainOpen)
+                                {
+                                    //Debug.Log($"this is playAgain panel");
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    rend.enabled = false;
+                                }
+                                //if (!SwingTriger.ScoreHandler.PitcherIntervalSwingTrigger)
+                                //{
+                                //    rend.enabled = true;
+                                //}
+                                //else
+                                //{
+                                //    Debug.Log("1........."+ !SwingTriger.ScoreHandler.GameOver);
+                                //    rend.enabled = false;
+                                //    if (!isInvokeCalled)
+                                //    {
+                                //        Debug.Log("2.........");
+                                //        StartCoroutine("IntervalBetweenPitcher");
+                                //    }
+                                //}
+                                break;
+                            case 2:
+                                rend.enabled = true;
+                                break;
+                            case 3:
+                                rend.enabled = false;
+                                break;
+                            case 4:
+
+                                if (finalResultOpen)
+                                {
+                                    rend.enabled = true;
+                                   // Debug.Log($"this is final result panel");
+                                }
+                                else
+                                {
+                                    rend.enabled = false;
+                                }
+                                break;
+                            case 5:
+                                if (settingsOpen)
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = false;
+                                }
+                                break;
+                            case 6:
+                                if (isInstructionOpen)
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
                                     rend.enabled = false;
                                 }
                                 break;

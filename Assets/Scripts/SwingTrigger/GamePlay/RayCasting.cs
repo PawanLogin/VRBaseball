@@ -20,6 +20,7 @@ namespace SwingTriger
         public static bool Count = false;
         public static int gameState;
         private bool resetGame = true;
+       
 
         public static int accuracySetting = 0;
         public static int velocitySetting = 0;
@@ -801,6 +802,27 @@ namespace SwingTriger
                                 overUI = true;
                             }
                         }
+
+                        if (hitGameObject.name == "InstructionsButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                UIController.isInstructionOpen = true;
+                                Time.timeScale = 0;
+                            }
+                            overUI = true;
+                        }
+
+                        if (hitGameObject.name == "Ok")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                UIController.isInstructionOpen = false;
+                                Time.timeScale = 1;
+                            }
+                            overUI = true;
+                        }
+
                         break;
                 }
             }

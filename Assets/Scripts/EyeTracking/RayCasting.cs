@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+
 
 public class RayCasting : MonoBehaviour
 {
@@ -24,6 +24,9 @@ public class RayCasting : MonoBehaviour
     public static int velocitySetting = 0;
     public static int pitcher = 0;
 
+    public GameObject pauseButton;
+    public GameObject ResumeButton;
+
     int layerMask = 1 << 4;
     int layerMask2 = 1 << 1;
 
@@ -35,7 +38,8 @@ public class RayCasting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (resetGame) GameReset();
+        if (resetGame)
+            GameReset();
         InteractRaycast();
         rotateCam();
     }
@@ -50,6 +54,11 @@ public class RayCasting : MonoBehaviour
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("BinaryPitch"))
         {
             gameState = 1;
+        }
+        // Added by Abhiwan
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("SwingTrigger"))
+        {
+            gameState = 2;
         }
     }
 
@@ -364,16 +373,20 @@ public class RayCasting : MonoBehaviour
                     {
                         if (Input.anyKeyDown)
                         {
+                            Debug.LogError($"this is SettingsButton {hitGameObject.name}");
                             UIController.settingsOpen = true;
                         }
                     }
 
-
+                    // Debug.Log($"hitGameObject.name {hitGameObject.name}");
                     if (hitGameObject.name == "PlayButton")
                     {
+
                         if (Input.anyKeyDown && ScoreHandler.GameOver)
                         {
+                            Debug.LogError($"this is PlayButton {hitGameObject.name}");
                             ScoreHandler.GameOver = false;
+                            UIController.finalResultOpen = false;
                             gameJustStarted = true;
                         }
                         overUI = true;
@@ -385,10 +398,61 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             ScoreHandler.GameOver = true;
+                            Debug.LogError($"this is back button {hitGameObject.name}");
                         }
                         overUI = true;
 
                     }
+
+                    if (hitGameObject.name == "Pause")
+                    {
+
+                        if (Input.anyKeyDown)
+                        {
+                            Time.timeScale = 0;
+                            pauseButton.gameObject.SetActive(false);
+                            ResumeButton.gameObject.SetActive(true);
+                            Debug.LogError($"this is back button {hitGameObject.name}");
+                        }
+                        overUI = true;
+
+                    }
+
+                    if (hitGameObject.name == "Resume")
+                    {
+
+                        if (Input.anyKeyDown)
+                        {
+                            Time.timeScale = 1;
+                            pauseButton.gameObject.SetActive(true);
+                            ResumeButton.gameObject.SetActive(false);
+                            Debug.LogError($"this is back button {hitGameObject.name}");
+                        }
+                        overUI = true;
+
+                    }
+
+                    if (hitGameObject.name == "InstructionsButton")
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            Debug.LogError($"this is InstructionsButton {hitGameObject.name}");
+                            UIController.isInstructionOpen = true;
+                            Time.timeScale = 0;
+                        }
+                        overUI = true;
+                    }
+
+                    if (hitGameObject.name == "Ok")
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            Debug.LogError($"this is Ok {hitGameObject.name}");
+                            UIController.isInstructionOpen = false;
+                            Time.timeScale = 1;
+                        }
+                        overUI = true;
+                    }   
 
                     if (hitGameObject.name == "ExitButton")
                     {
@@ -486,28 +550,6 @@ public class RayCasting : MonoBehaviour
                             if (Input.anyKeyDown)
                             {
                                 velocitySetting = 6;
-                            }
-                        }
-
-                        if (hitGameObject.name == "BudButton")
-                        {
-                            if (Input.anyKeyDown)
-                            {
-                                pitcher = 0;
-                            }
-                        }
-                        if (hitGameObject.name == "HiroButton")
-                        {
-                            if (Input.anyKeyDown)
-                            {
-                                pitcher = 1;
-                            }
-                        }
-                        if (hitGameObject.name == "DanteButton")
-                        {
-                            if (Input.anyKeyDown)
-                            {
-                                pitcher = 2;
                             }
                         }
 
@@ -618,6 +660,193 @@ public class RayCasting : MonoBehaviour
                     if (hitGameObject.name == "LeftArrowHitBox")
                     {
                         if (ScoreHandler1.GameOver)
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                menu1 = true;
+                            }
+                            overUI = true;
+                        }
+                    }
+                    break;
+                // This block of the code is added by Abhiwan ....................................
+                case 2:
+
+                    if (UIController.settingsOpen)
+                    {
+                        if (hitGameObject.name == "SwingButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                //SceneManager.LoadScene("SwingTrigger", LoadSceneMode.Single);         // un-comment this once swing trigger is built
+                                //resetGame = true;
+                            }
+                        }
+                        if (hitGameObject.name == "EyeButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                SceneManager.LoadScene("EyeTracking", LoadSceneMode.Single);
+                                resetGame = true;
+                            }
+                        }
+                        if (hitGameObject.name == "SpeedOne")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                velocitySetting = 1;
+                            }
+                        }
+                        if (hitGameObject.name == "SpeedTwo")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                velocitySetting = 2;
+                            }
+                        }
+                        if (hitGameObject.name == "SpeedThree")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                velocitySetting = 3;
+                            }
+                        }
+                        if (hitGameObject.name == "SpeedFour")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                velocitySetting = 4;
+                            }
+                        }
+                        if (hitGameObject.name == "SpeedFive")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                velocitySetting = 5;
+                            }
+                        }
+                        if (hitGameObject.name == "SpeedSix")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                velocitySetting = 6;
+                            }
+                        }
+
+                        if (hitGameObject.name == "WildButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                accuracySetting = 0;
+                            }
+                        }
+                        if (hitGameObject.name == "AverageButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                accuracySetting = 1;
+                            }
+                        }
+                        if (hitGameObject.name == "PinPointButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                accuracySetting = 2;
+                            }
+                        }
+                        if (hitGameObject.name == "ExitSettingsButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                UIController.settingsOpen = false;
+                            }
+                        }
+
+                        if (hitGameObject.name == "RightHand")
+                        {
+                            if (Input.anyKeyDown && ScoreHandler.GameOver)
+                            {
+                                leftHanded = false;
+                            }
+                            overUI = true;
+
+                        }
+
+                        if (hitGameObject.name == "LeftHand")
+                        {
+                            if (Input.anyKeyDown && ScoreHandler.GameOver)
+                            {
+                                leftHanded = true;
+                            }
+                            overUI = true;
+
+                        }
+                    }
+
+                    if (hitGameObject.name == "SettingsButton" && ScoreHandler.GameOver)
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            UIController.settingsOpen = true;
+                        }
+                    }
+                    // Debug.Log($"hitGameObject.name {hitGameObject.name}");
+                    if (hitGameObject.name == "PlayButton")
+                    {
+
+                        if (Input.anyKeyDown && ScoreHandler.GameOver)
+                        {
+                            //  Debug.Log($"Input.anyKeyDown {Input.anyKeyDown } ScoreHandler.GameOver {ScoreHandler.GameOver}");
+                            ScoreHandler.GameOver = false;
+                            gameJustStarted = true;
+                        }
+                        overUI = true;
+                    }
+
+                    if (hitGameObject.name == "BackButton")
+                    {
+
+                        if (Input.anyKeyDown)
+                        {
+                            ScoreHandler.GameOver = true;
+                        }
+                        overUI = true;
+
+                    }
+
+                    if (hitGameObject.name == "ExitButton")
+                    {
+                        if (Input.anyKeyDown && ScoreHandler.GameOver)
+                        {
+                            // Below Lines edit by Abhiwan
+                            // Quit the application in editor mode as well.
+#if UNITY_EDITOR
+                            UnityEditor.EditorApplication.isPlaying = false;
+#else
+                            Application.Quit();
+#endif
+
+                        }
+                        overUI = true;
+
+                    }
+
+                    if (hitGameObject.name == "RightArrowHitBox")
+                    {
+                        if (ScoreHandler.GameOver)
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                menu1 = false;
+                            }
+                            overUI = true;
+                        }
+
+                    }
+
+                    if (hitGameObject.name == "LeftArrowHitBox")
+                    {
+                        if (ScoreHandler.GameOver)
                         {
                             if (Input.anyKeyDown)
                             {
