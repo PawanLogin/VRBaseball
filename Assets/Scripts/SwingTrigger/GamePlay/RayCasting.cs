@@ -25,6 +25,7 @@ namespace SwingTriger
         public static int accuracySetting = 0;
         public static int velocitySetting = 0;
         public static int pitcher = 0;
+        public static bool isPause = false;
 
         int layerMask = 1 << 4;
         int layerMask2 = 1 << 1;
@@ -41,6 +42,15 @@ namespace SwingTriger
                 GameReset();
             InteractRaycast();
             rotateCam();
+
+            if (isPause)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
 
         void GameReset()
@@ -808,7 +818,7 @@ namespace SwingTriger
                             if (Input.anyKeyDown)
                             {
                                 UIController.isInstructionOpen = true;
-                                Time.timeScale = 0;
+                                isPause = true;
                             }
                             overUI = true;
                         }
@@ -818,7 +828,7 @@ namespace SwingTriger
                             if (Input.anyKeyDown)
                             {
                                 UIController.isInstructionOpen = false;
-                                Time.timeScale = 1;
+                                isPause = false;
                             }
                             overUI = true;
                         }

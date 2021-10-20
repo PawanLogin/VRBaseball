@@ -11,7 +11,7 @@ using UnityEngine;
         {
             if (SwingTriger.RayCasting.pitcher == vidNum)
             {
-                rend.enabled = true;
+                rend.enabled = true;    
             }
             else
             {

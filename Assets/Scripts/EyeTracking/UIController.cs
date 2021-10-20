@@ -13,6 +13,8 @@ public class UIController : MonoBehaviour
     public static bool finalResultOpen = false;
     public static bool playAgainOpen = false;
 
+    
+
     void Start()
     {
         rend = GetComponent<Canvas>();
@@ -36,7 +38,7 @@ public class UIController : MonoBehaviour
                 // Debug.Log("ScoreHandler.GameOver ... " + !ScoreHandler.GameOver);
                 if (!ScoreHandler.GameOver)
                 {
-                    Debug.Log("UIType ... " + UIType + " and " + gameState) ;
+                    //Debug.Log("UIType ... " + UIType + " and " + gameState) ;
                     switch (UIType)
                     {
                         case 1:
@@ -79,7 +81,7 @@ public class UIController : MonoBehaviour
                 }
                 else if (isFirstTimePlay)
                 {
-                    Debug.Log("UIType ... " + UIType + " and " + gameState);
+                   // Debug.Log("UIType ... " + UIType + " and " + gameState);
                     switch (UIType)
                     {
                         case 1:
@@ -198,6 +200,18 @@ public class UIController : MonoBehaviour
                         case 5:
                             rend.enabled = false;
                             break;
+                        case 6:
+                            if (isInstructionOpen)
+                            {
+                                // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                rend.enabled = true;
+                            }
+                            else
+                            {
+                                // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                rend.enabled = false;
+                            }
+                            break;
                     }
                 }
                 else
@@ -224,6 +238,18 @@ public class UIController : MonoBehaviour
                             }
                             else
                             {
+                                rend.enabled = false;
+                            }
+                            break;
+                        case 6:
+                            if (isInstructionOpen)
+                            {
+                                // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
+                                rend.enabled = true;
+                            }
+                            else
+                            {
+                                // Debug.Log($"this gameobj nam {this.gameObject.name} called from 5 else ....."+ settingsOpen);
                                 rend.enabled = false;
                             }
                             break;

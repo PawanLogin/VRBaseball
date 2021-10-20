@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class ScoreHandler1 : MonoBehaviour
     private MeshRenderer rend;
 
     public static bool correctScore = false;
+    public static int correctScoreCount;
 
     private Vector3 leftPos;
     private Vector3 rightPos;
@@ -22,13 +24,26 @@ public class ScoreHandler1 : MonoBehaviour
 
     public static bool doOnce = true;
     private int pitchNumber = 0;
+    public TextMeshProUGUI pitchText;
 
     public static List<int> scores = new List<int>();
    // public static List<string> ballTypes = new List<string>();
      public static List<int> ballTypes = new List<int>();
 
-    public Text BallType;
-    public Text BallScore;
+    public List<string> leaderboardYouranswer = new List<string>();
+    public List<int> leaderboardYouranswerColor = new List<int>();
+    public List<string> leaderboardCorrectAnswer = new List<string>();
+
+    public GameObject containerYouranswer;
+    public GameObject containerCorrectAnswer;
+    public GameObject YouranswerPrefeb;
+    public GameObject CorrectAnswerPrefeb;
+
+    public TextMeshProUGUI totalCorrectOutofTotal;
+    public TextMeshProUGUI avarageScoreText;
+
+    public Text yourAnswer;
+    public Text correctAnswer;
 
     public Text score1;
     public Text score2;
@@ -58,8 +73,8 @@ public class ScoreHandler1 : MonoBehaviour
         rightPos = new Vector3(-.38f, 1.638f, -.12f);
         leftPos = new Vector3(1.21f, 1.638f, -.12f);
 
-        BallType.text = "...";
-        BallScore.text = "0%";
+        yourAnswer.text = "...";
+        correctAnswer.text = "0%";
         rend = strikeZone.GetComponent<MeshRenderer>();
     }
 
@@ -90,8 +105,13 @@ public class ScoreHandler1 : MonoBehaviour
         {
             RayCasting.gameJustStarted = false;
             clearValues();
-            print("clearingValues");
+           
             pitchNumber = 0;
+            idNum = 0;
+            pitchText.text = "0 of 15";
+           
+            print("clearingValues");
+           
         }
 
     }
@@ -118,7 +138,7 @@ public class ScoreHandler1 : MonoBehaviour
     {
 
         idNum++;
-
+        pitchText.text = idNum.ToString() + " of 15";
         //Score takes the guess, and ballType takes the correct answer
 
         ballTypes.Add(BaseballController1.pitchTypes);
@@ -132,7 +152,7 @@ public class ScoreHandler1 : MonoBehaviour
 
 
 
-        updateText(RayCasting.guess, BaseballController1.pitchTypes);
+        updateText(RayCasting.guess, int.Parse(BaseballController1.pitchBallBoth));
         if (idNum > 14)
         {
             endGame();
@@ -143,9 +163,10 @@ public class ScoreHandler1 : MonoBehaviour
 
     private void endGame()
     {
+        ResultPanel();
         //SetValues();
         GameOver = true;
-        //clearValues();
+        clearValues();
 
     }
 
@@ -154,6 +175,10 @@ public class ScoreHandler1 : MonoBehaviour
 
         scores.Clear();
         ballTypes.Clear();
+
+        leaderboardYouranswer.Clear();
+        leaderboardYouranswerColor.Clear();
+        leaderboardCorrectAnswer.Clear();
 
     }
 
@@ -171,44 +196,162 @@ public class ScoreHandler1 : MonoBehaviour
 
     }
 
-    private void updateText(int score, int ballType)
+    private void updateText(int guess, int correctAnswer)
     {
 
         //0 1 2 3
         //0 1 2 3 4 5 6 
 
 
-        if (score == ballType)
+        if (guess == correctAnswer)
         {
             correctScore = true;
+            correctScoreCount++;
+            leaderboardYouranswerColor.Add(0);
+
+            Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
         }
         else
         {
             correctScore = false;
+            leaderboardYouranswerColor.Add(1);
+
+            Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
         }
 
-        /* switch (ballType)
+       // Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
+        switch (correctAnswer)
         {
-            case 0:
-                BallType.text = "Four Seam";
+            case 00:
+                this.correctAnswer.text = "Fastball-Strike";
                 break;
-            case 1:
-                BallType.text = "Curve Ball";
+            case 01:
+                this.correctAnswer.text = "Fastball-Ball";
                 break;
-            case 2:
-                BallType.text = "Slider";
+            case 10:
+                this.correctAnswer.text = "Curveball -Strike";
                 break;
-            case 3:
-                BallType.text = "Two Seam";
+            case 11:
+                this.correctAnswer.text = "Curveball -Ball";
                 break;
-            case 4:
-                BallType.text = "Change Up";
+            case 20:
+                this.correctAnswer.text = "Sliderball -Strike";
+                break;
+
+            case 21:
+                this.correctAnswer.text = "Sliderball -Ball";
+                break;
+
+            case 30:
+                this.correctAnswer.text = "Changeball -Strike";
+                break;
+
+            case 31:
+                this.correctAnswer.text = "Changeball -Ball";
                 break;
         }
 
-        BallScore.text = score + "%";
-        */
+        leaderboardCorrectAnswer.Add(this.correctAnswer.text);
+
+        switch (guess)
+        {
+            case 00:
+                yourAnswer.text = "Fastball-Strike";
+                break;
+            case 01:
+                yourAnswer.text = "Fastball-Ball";
+                break;
+            case 10:
+                yourAnswer.text = "Curveball-Strike";
+                break;
+            case 11:
+                yourAnswer.text = "Curveball-Ball";
+                break;
+            case 20:
+                yourAnswer.text = "Sliderball-Strike";
+                break;
+
+            case 21:
+                yourAnswer.text = "Sliderball-Ball";
+                break;
+
+            case 30:
+                yourAnswer.text = "Changeball-Strike";
+                break;
+
+            case 31:
+                yourAnswer.text = "Changeball-Ball";
+                break;
+        }
+
+        leaderboardYouranswer.Add(yourAnswer.text);
+
+
+
     }
+
+
+    public void ResultPanel()
+    {
+        ClearAllHolders();
+
+        foreach (var item in leaderboardCorrectAnswer)
+        {
+            var instantiatedObject = Instantiate(CorrectAnswerPrefeb, containerCorrectAnswer.transform);
+            var textObject = instantiatedObject.GetComponentInChildren<TextMeshProUGUI>();
+            // Debug.Log(item);
+            textObject.text = item;
+        }
+
+
+        for (int i = 0; i < leaderboardYouranswer.Count; i++)
+        {
+            var instantiatedObject = Instantiate(YouranswerPrefeb, containerYouranswer.transform);
+            var textObject = instantiatedObject.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (leaderboardYouranswerColor[i] == 0)
+            {
+                textObject.text = leaderboardYouranswer[i];
+                textObject.color = Color.green;
+            }
+            else if(leaderboardYouranswerColor[i] == 1)
+            {
+                textObject.text = leaderboardYouranswer[i];
+                textObject.color = Color.red;
+            }
+        }
+       
+
+        avarageScoreText.text = Avarage();
+        totalCorrectOutofTotal.text = Score();
+
+
+    }
+
+    public string Avarage()
+    {
+        float avarageScore = 0;
+       
+        avarageScore = ((correctScoreCount*100) / 15);
+        return avarageScore.ToString("0.0") + "%";
+    }
+
+    public string Score()
+    {
+        string avarageScore;
+
+        avarageScore = $"{correctScoreCount}/15";
+        return avarageScore;
+    }
+
+    private void ClearAllHolders()
+    {
+        containerYouranswer.ClearButNotZeroIndex();
+        containerCorrectAnswer.ClearButNotZeroIndex();
+
+
+    }
+
 
     private void SetValues1()
     {

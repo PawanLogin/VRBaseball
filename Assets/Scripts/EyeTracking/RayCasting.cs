@@ -19,10 +19,12 @@ public class RayCasting : MonoBehaviour
     public static bool Count = false;
     public static int gameState;
     private bool resetGame = true;
+    
 
     public static int accuracySetting = 0;
     public static int velocitySetting = 0;
     public static int pitcher = 0;
+    public static bool isPause = false;
 
     public GameObject pauseButton;
     public GameObject ResumeButton;
@@ -42,6 +44,15 @@ public class RayCasting : MonoBehaviour
             GameReset();
         InteractRaycast();
         rotateCam();
+
+        if (isPause)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 
     void GameReset()
@@ -102,7 +113,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 0;
+                            guess = 00;
+                            //BaseballController1.CorrectAns.text = $"Answer: Fastball - Strike";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -116,7 +128,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 0;
+                            guess = 01;
+                            //BaseballController1.CorrectAns.text = $"Answer: Fastball - Ball";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -130,7 +143,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 1;
+                            guess = 10;
+                           // BaseballController1.CorrectAns.text = $"Answer: Curveball - Strike";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -144,7 +158,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 1;
+                            guess = 11;
+                           // BaseballController1.CorrectAns.text = $"Answer: Curveball - Ball";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -158,7 +173,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 2;
+                            guess = 20;
+                           // BaseballController1.CorrectAns.text = $"Answer: Slider - Strike";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -172,7 +188,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 2;
+                            guess = 21;
+                          //  BaseballController1.CorrectAns.text = $"Answer: Slider - Ball";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -186,7 +203,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 3;
+                            guess = 30;
+                          //  BaseballController1.CorrectAns.text = $"Answer: Change - Strike";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -200,7 +218,8 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 3;
+                            guess = 31;
+                           // BaseballController1.CorrectAns.text = $"Answer: Change - Ball";
                             BaseballController1.hasChosenAnswer = true;
                         }
                         overUI = true;
@@ -409,7 +428,8 @@ public class RayCasting : MonoBehaviour
 
                         if (Input.anyKeyDown)
                         {
-                            Time.timeScale = 0;
+                            isPause = true;
+                            //Time.timeScale = 0;
                             pauseButton.gameObject.SetActive(false);
                             ResumeButton.gameObject.SetActive(true);
                             Debug.LogError($"this is back button {hitGameObject.name}");
@@ -423,7 +443,7 @@ public class RayCasting : MonoBehaviour
 
                         if (Input.anyKeyDown)
                         {
-                            Time.timeScale = 1;
+                            isPause = false;
                             pauseButton.gameObject.SetActive(true);
                             ResumeButton.gameObject.SetActive(false);
                             Debug.LogError($"this is back button {hitGameObject.name}");
@@ -438,7 +458,7 @@ public class RayCasting : MonoBehaviour
                         {
                             Debug.LogError($"this is InstructionsButton {hitGameObject.name}");
                             UIController.isInstructionOpen = true;
-                            Time.timeScale = 0;
+                            isPause = true;
                         }
                         overUI = true;
                     }
@@ -449,7 +469,7 @@ public class RayCasting : MonoBehaviour
                         {
                             Debug.LogError($"this is Ok {hitGameObject.name}");
                             UIController.isInstructionOpen = false;
-                            Time.timeScale = 1;
+                            isPause = false;
                         }
                         overUI = true;
                     }   
@@ -458,7 +478,11 @@ public class RayCasting : MonoBehaviour
                     {
                         if (Input.anyKeyDown && ScoreHandler.GameOver)
                         {
+#if UNITY_EDITOR
+                            UnityEditor.EditorApplication.isPlaying = false;
+#else
                             Application.Quit();
+#endif
 
                         }
                         overUI = true;
@@ -633,11 +657,65 @@ public class RayCasting : MonoBehaviour
 
                     }
 
+                    if (hitGameObject.name == "Pause")
+                    {
+
+                        if (Input.anyKeyDown)
+                        {
+                            isPause = true;
+                            pauseButton.gameObject.SetActive(false);
+                            ResumeButton.gameObject.SetActive(true);
+                            Debug.LogError($"this is back button {hitGameObject.name}");
+                        }
+                        overUI = true;
+
+                    }
+
+                    if (hitGameObject.name == "Resume")
+                    {
+
+                        if (Input.anyKeyDown)
+                        {
+                            isPause = false;
+                            pauseButton.gameObject.SetActive(true);
+                            ResumeButton.gameObject.SetActive(false);
+                            Debug.LogError($"this is back button {hitGameObject.name}");
+                        }
+                        overUI = true;
+
+                    }
+
+                    if (hitGameObject.name == "InstructionsButton")
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            Debug.LogError($"this is InstructionsButton {hitGameObject.name}");
+                            UIController.isInstructionOpen = true;
+                            isPause = true;
+                        }
+                        overUI = true;
+                    }
+
+                    if (hitGameObject.name == "Ok")
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            Debug.LogError($"this is Ok {hitGameObject.name}");
+                            UIController.isInstructionOpen = false;
+                            isPause = false;
+                        }
+                        overUI = true;
+                    }
+
                     if (hitGameObject.name == "ExitButton")
                     {
                         if (Input.anyKeyDown && ScoreHandler1.GameOver)
                         {
+#if UNITY_EDITOR
+                            UnityEditor.EditorApplication.isPlaying = false;
+#else
                             Application.Quit();
+#endif
 
                         }
                         overUI = true;
