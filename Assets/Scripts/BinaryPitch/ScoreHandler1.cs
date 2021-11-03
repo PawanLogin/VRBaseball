@@ -13,6 +13,7 @@ public class ScoreHandler1 : MonoBehaviour
     private MeshRenderer rend;
 
     public static bool correctScore = false;
+    public static int correctAnswerChecking = 0;
     public static int correctScoreCount;
 
     private Vector3 leftPos;
@@ -26,7 +27,7 @@ public class ScoreHandler1 : MonoBehaviour
     private int pitchNumber = 0;
     public TextMeshProUGUI pitchText;
 
-    public static List<int> scores = new List<int>();
+    public static List<string> scores = new List<string>();
    // public static List<string> ballTypes = new List<string>();
      public static List<int> ballTypes = new List<int>();
 
@@ -110,7 +111,7 @@ public class ScoreHandler1 : MonoBehaviour
             idNum = 0;
             pitchText.text = "0 of 15";
            
-            print("clearingValues");
+          //s  print("clearingValues");
            
         }
 
@@ -152,7 +153,7 @@ public class ScoreHandler1 : MonoBehaviour
 
 
 
-        updateText(RayCasting.guess, int.Parse(BaseballController1.pitchBallBoth));
+        updateText(RayCasting.guess, BaseballController1.pitchBallBoth);
         if (idNum > 14)
         {
             endGame();
@@ -196,23 +197,25 @@ public class ScoreHandler1 : MonoBehaviour
 
     }
 
-    private void updateText(int guess, int correctAnswer)
+    private void updateText(string guess, string correctAnswer)
     {
 
         //0 1 2 3
         //0 1 2 3 4 5 6 
 
 
-        if (guess == correctAnswer)
+        if (guess.Equals(correctAnswer))
         {
+            correctAnswerChecking = 1;
             correctScore = true;
             correctScoreCount++;
             leaderboardYouranswerColor.Add(0);
 
             Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
         }
-        else
+        else if(!guess.Equals(correctAnswer))
         {
+            correctAnswerChecking = 2;
             correctScore = false;
             leaderboardYouranswerColor.Add(1);
 
@@ -222,31 +225,31 @@ public class ScoreHandler1 : MonoBehaviour
        // Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
         switch (correctAnswer)
         {
-            case 00:
+            case "00":
                 this.correctAnswer.text = "Fastball-Strike";
                 break;
-            case 01:
+            case "01":
                 this.correctAnswer.text = "Fastball-Ball";
                 break;
-            case 10:
+            case "10":
                 this.correctAnswer.text = "Curveball -Strike";
                 break;
-            case 11:
+            case "11":
                 this.correctAnswer.text = "Curveball -Ball";
                 break;
-            case 20:
+            case "20":
                 this.correctAnswer.text = "Sliderball -Strike";
                 break;
 
-            case 21:
+            case "21":
                 this.correctAnswer.text = "Sliderball -Ball";
                 break;
 
-            case 30:
+            case "30":
                 this.correctAnswer.text = "Changeball -Strike";
                 break;
 
-            case 31:
+            case "31":
                 this.correctAnswer.text = "Changeball -Ball";
                 break;
         }
@@ -255,32 +258,32 @@ public class ScoreHandler1 : MonoBehaviour
 
         switch (guess)
         {
-            case 00:
+            case "00":
                 yourAnswer.text = "Fastball-Strike";
                 break;
-            case 01:
+            case "01":
                 yourAnswer.text = "Fastball-Ball";
                 break;
-            case 10:
-                yourAnswer.text = "Curveball-Strike";
+            case "10":
+                yourAnswer.text = "Curveball -Strike";
                 break;
-            case 11:
-                yourAnswer.text = "Curveball-Ball";
+            case "11":
+                yourAnswer.text = "Curveball -Ball";
                 break;
-            case 20:
-                yourAnswer.text = "Sliderball-Strike";
-                break;
-
-            case 21:
-                yourAnswer.text = "Sliderball-Ball";
+            case "20":
+                yourAnswer.text = "Sliderball -Strike";
                 break;
 
-            case 30:
-                yourAnswer.text = "Changeball-Strike";
+            case "21":
+                yourAnswer.text = "Sliderball -Ball";
                 break;
 
-            case 31:
-                yourAnswer.text = "Changeball-Ball";
+            case "30":
+                yourAnswer.text = "Changeball -Strike";
+                break;
+
+            case "31":
+                yourAnswer.text = "Changeball -Ball";
                 break;
         }
 
@@ -355,16 +358,16 @@ public class ScoreHandler1 : MonoBehaviour
 
     private void SetValues1()
     {
-        score1.text = converter(scores[0]);
-        score2.text = converter(scores[1]);
-        score3.text = converter(scores[2]);
-        score4.text = converter(scores[3]);
-        score5.text = converter(scores[4]);
-        score6.text = converter(scores[5]);
-        score7.text = converter(scores[6]);
-        score8.text = converter(scores[7]);
-        score9.text = converter(scores[8]);
-        score10.text = converter(scores[9]);
+        score1.text = (scores[0]);
+        score2.text = (scores[1]);
+        score3.text = (scores[2]);
+        score4.text = (scores[3]);
+        score5.text = (scores[4]);
+        score6.text = (scores[5]);
+        score7.text = (scores[6]);
+        score8.text = (scores[7]);
+        score9.text = (scores[8]);
+        score10.text = (scores[9]);
 
         ball1.text = converter(ballTypes[0]);
         ball2.text = converter(ballTypes[1]);
@@ -381,11 +384,11 @@ public class ScoreHandler1 : MonoBehaviour
     private void SetValues2()
     {
 
-        score1.text = converter(scores[10]);
-        score2.text = converter(scores[11]);
-        score3.text = converter(scores[12]);
-        score4.text = converter(scores[13]);
-        score5.text = converter(scores[14]);
+        score1.text = (scores[10]);
+        score2.text = (scores[11]);
+        score3.text = (scores[12]);
+        score4.text = (scores[13]);
+        score5.text = (scores[14]);
         score6.text = "..."; //converter(scores[15]);
         score7.text = "..."; //converter(scores[16]);
         score8.text = "..."; //converter(scores[17]);

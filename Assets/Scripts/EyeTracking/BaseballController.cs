@@ -440,7 +440,7 @@ using UnityEngine.Video;
                     if (i <= 85) //use balls
                     {
                         print("1");
-                        int temp = Random.Range(0, Balls.Count + 1);
+                        int temp = Random.Range(0, Balls.Count);
                         endPoses = Balls[temp];
                     Debug.Log($"this is end point {endPoses} of AverageButton");
 
@@ -448,7 +448,7 @@ using UnityEngine.Video;
                     else //use Strikes
                     {
                         print("1");
-                        int temp = Random.Range(0, Strikes.Count + 1);
+                        int temp = Random.Range(0, Strikes.Count);
                         endPoses = Strikes[temp];
                     Debug.Log($"this is end point {endPoses} of AverageButton");
                 }
@@ -459,14 +459,14 @@ using UnityEngine.Video;
                     if (x <= 95) // use balls
                     {
                         print("2");
-                        int temp = Random.Range(0, Balls.Count + 1);
+                        int temp = Random.Range(0, Balls.Count);
                         endPoses = Balls[temp];
                     Debug.Log($"this is end point {endPoses} of PinPointButton");
                 }
                     else //use Strikes
                     {
                         print("2");
-                        int temp = Random.Range(0, Strikes.Count + 1);
+                        int temp = Random.Range(0, Strikes.Count);
                         endPoses = Strikes[temp];
                     Debug.Log($"this is end point {endPoses} of PinPointButton");
                 }

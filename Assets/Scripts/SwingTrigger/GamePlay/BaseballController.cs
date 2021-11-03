@@ -29,6 +29,9 @@ namespace SwingTriger
         private Transform posADefault;
         public Transform posBDefault;
         public Transform handleDefault;
+
+        
+
         public float percent = 0;
         public int curveResolution = 10;
         private float speedMultiplier = 5;

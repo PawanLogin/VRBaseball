@@ -32,13 +32,23 @@ public class BaseballController1 : MonoBehaviour
 
     public Transform posA;
     public Transform posB;
+
+    // for extra pitchre
     public Transform posX;
     public Transform posY;
-    public Transform handle;
 
     private Transform posADefault;
+
     public Transform posBDefault;
+    public Transform handle;
+    public Transform handle2;
     public Transform handleDefault;
+    public List<Transform> handleDefaultSlider;
+    public List<Transform> handleDefaultCurve;
+    public List<Transform> handleDefaultChangeUp;
+    public List<Transform> handleDefaultChangeUp1;
+
+    public List<Transform> endPointPosition;
     public float percent = 0;
     public int curveResolution = 10;
     private float speedMultiplier = 5;
@@ -139,7 +149,7 @@ public class BaseballController1 : MonoBehaviour
             rend2.enabled = false;
             CorrectAnsCanvas.gameObject.SetActive(false);*/
             ScoreHandler1.strikeZoneVisible = true;
-            //hasChosenAnswer = false;
+           // hasChosenAnswer = false;
             //we need to know whether or not they got the answer correct, then enable the true one here   
         }
         else
@@ -169,12 +179,13 @@ public class BaseballController1 : MonoBehaviour
         //This triggers a new ball to be spawned at a random pitcher location in order to prove that this is a variable location
         if (!ScoreHandler1.GameOver && !isTweening && !videoPlayer.isPlaying && hasChosenAnswer && playAgain)
         {
-            Debug.Log($"this is gameover {!ScoreHandler1.GameOver} and isTweening {!isTweening} and is vidwoplayer {!videoPlayer.isPlaying} and has chosen answer {hasChosenAnswer}");
+           // Debug.Log($"this is first execution");
 
             timer++;
             if (timer > 60)
             {
                 timer = 0;
+                Debug.Log($"this is first execution");
                 playVid();
             }
 
@@ -182,7 +193,7 @@ public class BaseballController1 : MonoBehaviour
 
         if (videoPlayer.frame >= 100 && doOnce && videoPlayer.frame <= 104)
         {
-            Debug.Log($"this is vidioPlayer frame in do once condtion {videoPlayer.frame}");
+            Debug.Log($"this is 3 execution");
             doOnce = false;
             PlayTween();
 
@@ -190,65 +201,69 @@ public class BaseballController1 : MonoBehaviour
 
         if (videoPlayer.frame >= 110 && videoPlayer.isPlaying)
         {
-          //  Debug.Log($"this is vidioPlayer frame in frame grater than 110 condtion {videoPlayer.frame}");
+            //  Debug.Log($"this is vidioPlayer frame in frame grater than 110 condtion {videoPlayer.frame}");
             //videoPlayer.frame = 1;
+
+            Debug.Log($"this is 5 execution");
             videoPlayer.Stop();
             videoPlayer1.Stop();
             videoPlayer2.Stop();
-            hasThrownOne = true;
-
-            OpenSettingPanel();
+            StartCoroutine(HasThrough());
+            //hasThrownOne = true;
+           // OpenSettingPanel();
         }
 
+        
 
         if (isTweening)
         {
-            Debug.Log($"this is isTweening {isTweening}");
+           // Debug.Log($"this is isTweening {isTweening}");
             /* rend1.enabled = false;
              rend2.enabled = false;
              CorrectAnsCanvas.gameObject.SetActive(false);*/
-            if (hasThrownOne)
+          /*  if (hasThrownOne)
             {
                 hasChosenAnswer = false;
-            }
+            }*/
 
             //Controlls baseball speed with the settings menu
             switch (RayCasting.velocitySetting)
             {
                 case 1:
-                    print("changed: 1");
-                    speedMultiplier = 1;
-                    RayCasting.velocitySetting = 0;
+                   // print("changed: 1");
+                    speedMultiplier = 3;
+                   // RayCasting.velocitySetting = 0;
                     break;
 
                 case 2:
-                    print("changed: 2");
-                    speedMultiplier = 2.5f;
-                    RayCasting.velocitySetting = 0;
+                    //print("changed: 2");
+                    speedMultiplier = 4f;
+                    //RayCasting.velocitySetting = 0;
                     break;
 
                 case 3:
-                    print("changed: 3");
+                   // print("changed: 3");
                     speedMultiplier = 5;
-                    RayCasting.velocitySetting = 0;
+                    //Debug.Log($"this is speed multiplyer {speedMultiplier}");
+                   // RayCasting.velocitySetting = 0;
                     break;
 
                 case 4:
-                    print("changed: 4");
-                    speedMultiplier = 7.5f;
-                    RayCasting.velocitySetting = 0;
+                   /// print("changed: 4");
+                    speedMultiplier = 6f;
+                  //  RayCasting.velocitySetting = 0;
                     break;
 
                 case 5:
-                    print("changed: 5");
-                    speedMultiplier = 9;
-                    RayCasting.velocitySetting = 0;
+                   // print("changed: 5");
+                    speedMultiplier = 7;
+                   // RayCasting.velocitySetting = 0;
                     break;
 
                 case 6:
-                    print("changed: 6");
-                    speedMultiplier = 12;
-                    RayCasting.velocitySetting = 0;
+                   // print("changed: 6");
+                    speedMultiplier = 8;
+                  //  RayCasting.velocitySetting = 0;
                     break;
 
                 case 0:
@@ -260,7 +275,7 @@ public class BaseballController1 : MonoBehaviour
             tweenTimer += Time.deltaTime * speedMultiplier;
             float p = tweenTimer / tweenLength;
             percent = tweenSpeed.Evaluate(p);
-
+            
             if (tweenTimer > tweenLength)
             {
                 tweenTimer = 0;
@@ -269,41 +284,43 @@ public class BaseballController1 : MonoBehaviour
                 transform.position = new Vector3(0, -20, 0);
             }
         }
-        else
-        {
-           // Debug.Log($"this is isTweening {isTweening}");
 
-        }
 
         if (hasChosenAnswer && !ScoreHandler1.GameOver && hasThrownOne)   //I think the problem is that "hasChosenAnswer" is correct after the first answer, and never resets
         {
-
-
-            if (ScoreHandler1.correctScore && isAnswerShowOnce)
+            if (ScoreHandler1.correctAnswerChecking == 1 && isAnswerShowOnce)
             {
-
                 Debug.Log($"this is hasThrownOne {hasThrownOne} and haschosenAnswer {hasChosenAnswer}");
-
                 rend1.enabled = true;
-               // rend2.enabled = false;
+                rend2.enabled = false;
                 CorrectAnsCanvas.gameObject.SetActive(true);
                 isAnswerShowOnce = false;
+                ScoreHandler1.correctAnswerChecking = 0;
             }
-            else if (!ScoreHandler1.correctScore && isAnswerShowOnce)
+            else if (ScoreHandler1.correctAnswerChecking == 2 && isAnswerShowOnce)
             {
-
                 Debug.Log($"this is hasThrownOne {hasThrownOne} and haschosenAnswer {hasChosenAnswer}");
 
                 rend2.enabled = true;
-                //rend1.enabled = false;
+                rend1.enabled = false;
                 CorrectAnsCanvas.gameObject.SetActive(true);
                 isAnswerShowOnce = false;
+                ScoreHandler1.correctAnswerChecking = 0;
             }
         }
 
         if (percent > 0)
         {
-            transform.position = CalcPositionOnCurve(percent);
+            if(pitchTypes == 3)
+            {
+                transform.position = CalcPositionOnCurveChangeUP(percent);
+            }
+            else
+            {
+                transform.position = CalcPositionOnCurve(percent);
+            }
+            
+           // Debug.Log($"this is tweenSpeed {percent} and tweenTimer {tweenTimer} and tween Lenght is {tweenLength} and tranform.position is {transform.position}");
         }
         else
         {
@@ -321,6 +338,19 @@ public class BaseballController1 : MonoBehaviour
         StartCoroutine(Delay());
     }
 
+    IEnumerator HasThrough()
+    {
+       
+        playAgain = false;
+       
+        yield return new WaitForSeconds(1f);
+        hasThrownOne = true;
+        hasChosenAnswer = false;
+        isAnswerShowOnce = true;
+       // yield return new WaitForSeconds(1f);
+        OpenSettingPanel();
+    }
+
     public void OpenSettingPanel()
     {
         StartCoroutine(OpenPaenl());
@@ -329,21 +359,38 @@ public class BaseballController1 : MonoBehaviour
 
     IEnumerator OpenPaenl()
     {
-        Debug.Log($"this is openPanel calling fucntion");
-        playAgain = false;
-        isAnswerShowOnce = true;
+        /*playAgain = false;
+        isAnswerShowOnce = true;*/
         yield return new WaitForSeconds(4f);
+        Debug.Log($"this is openPanel calling fucntion");
+       /* rend1.enabled = false;
+        rend2.enabled = false;
+        CorrectAnsCanvas.gameObject.SetActive(false);*/
+        
+       //yield return new WaitForSeconds(1f);
+       //playAgain = true;
+        
+    }
+
+    IEnumerator CloseChoseAns()
+    {
         rend1.enabled = false;
         rend2.enabled = false;
         CorrectAnsCanvas.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         playAgain = true;
-        
+        Debug.Log("PlayAgain is calling");
     }
+
+    public void PlayAgain()
+    {
+        StartCoroutine(CloseChoseAns());
+    }
+
     public void PlayTween()
     {
         Vector3 pitcherOffset = new Vector3(0, 0, 0);
-
+        Debug.Log($"this is 4 execution");
 
         switch (RayCasting.pitcher)
         {
@@ -365,8 +412,70 @@ public class BaseballController1 : MonoBehaviour
 
 
 
-        pitchTypes = Random.Range(0, 5);
+        pitchTypes = Random.Range(0, 4);
+        //pitchTypes = 3;
         endPoses = Random.Range(1, 31);
+
+
+        switch (RayCasting.accuracySetting)
+        {
+            case 0: // Just does the code like it used to, as there are 50/50 ball and strike options
+                int i = Random.Range(0, 101);
+                if (i <= 50) //use balls
+                {
+                   // print("1");
+                    int temp = Random.Range(0, Balls.Count);
+                    endPoses = Balls[temp];
+                   // Debug.Log($"this is end point {endPoses} of AverageButton");
+
+                }
+                else //use Strikes
+                {
+                  //  print("1");
+                    int temp = Random.Range(0, Strikes.Count);
+                    endPoses = Strikes[temp];
+                   // Debug.Log($"this is end point {endPoses} of AverageButton");
+                }
+                break;
+
+            case 1:
+                int j = Random.Range(0, 101);
+                if (j <= 85) //use balls
+                {
+                   // print("1");
+                    int temp = Random.Range(0, Strikes.Count);
+                    endPoses = Strikes[temp];
+                   // Debug.Log($"this is end point {endPoses} of AverageButton");
+                }
+                else //use Strikes
+                {
+                  //  print("1");
+                    int temp = Random.Range(0, Balls.Count);
+                    endPoses = Balls[temp];
+                   // Debug.Log($"this is end point {endPoses} of AverageButton");
+                }
+                break;
+
+            case 2:
+                int x = Random.Range(0, 101);
+                if (x <= 95) // use balls
+                {
+                   // print("2");
+                    int temp = Random.Range(0, Strikes.Count);
+                    endPoses = Strikes[temp];
+                   // Debug.Log($"this is end point {endPoses} of PinPointButton");
+                }
+                else //use Strikes
+                {
+                   // print("2");
+                    int temp = Random.Range(0, Balls.Count);
+                    endPoses = Balls[temp];
+                   // Debug.Log($"this is end point {endPoses} of PinPointButton");
+                }
+                break;
+        }
+
+
 
         tweenTimer = 0;
         isTweening = true;
@@ -377,7 +486,9 @@ public class BaseballController1 : MonoBehaviour
             {
                 case 0:
                     //4S Fastball
-                    handle.localPosition = handleDefault.localPosition;
+                  //  handle.localPosition = handleDefault.localPosition;
+                    handle.localPosition  = endPointPosition[endPoses].localPosition;
+
                     pitchType = "FastBall";
                     pitchValue = "0";
 
@@ -388,40 +499,57 @@ public class BaseballController1 : MonoBehaviour
                     //CurveBall
                     pitchType = "CurveBall";
                     pitchValue = "1";
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + -.4f, handleDefault.localPosition.y + .4f, handleDefault.localPosition.z - .4f);
+                    //  handle.localPosition = new Vector3(handleDefault.localPosition.x + -.4f, handleDefault.localPosition.y + .4f, handleDefault.localPosition.z - .4f);
+                    int ramdomCurev = Random.Range(0, handleDefaultCurve.Count);
+                    handle.localPosition = handleDefaultCurve[ramdomCurev].localPosition;
+                   // Debug.Log($"this is handle position {handle.localPosition}");
                     break;
 
                 case 2:
                     //Slider
                     pitchType = "Slider";
                     pitchValue = "2";
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + -.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    // handle.localPosition = new Vector3(handleDefault.localPosition.x + -.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    int ramdomSlider = Random.Range(0, handleDefaultSlider.Count);
+                    handle.localPosition = handleDefaultSlider[ramdomSlider].localPosition;
+                   // Debug.Log($"this is handle position {handle.localPosition}");
                     break;
 
-                case 3:
+               /* case 3:
                     //2S Fastball
                     pitchType = "Fastball";
                     pitchValue = "0";
                     handle.localPosition = new Vector3(handleDefault.localPosition.x - 1.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
-                    break;
+                    break;*/
 
-                case 4:
+                case 3:
                     //ChangeUp
                     pitchType = "ChangeUp";
                     pitchValue = "3";
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + .3f, handleDefault.localPosition.y + .8f, handleDefault.localPosition.z - .2f);
+                    //handle.localPosition = new Vector3(handleDefault.localPosition.x + .3f, handleDefault.localPosition.y + .8f, handleDefault.localPosition.z - .2f);
+                    int ramdomChangeUP = Random.Range(0, handleDefaultChangeUp.Count);
+                    handle.localPosition = handleDefaultChangeUp[ramdomChangeUP].localPosition;
+
+                    int ramdomChangeUP1 = Random.Range(0, handleDefaultChangeUp1.Count);
+                    handle2.localPosition = handleDefaultChangeUp1[ramdomChangeUP].localPosition;
+                    // Debug.Log($"this is handle position {handle.localPosition}");
                     break;
             }
 
+
+            posB.localPosition = endPointPosition[endPoses].localPosition;
+
             //Chooses between 31 different ending positions
-            switch (endPoses)
+           /* switch (endPoses)
             {
                 case 0:
-                    posB.localPosition = new Vector3(posBDefault.localPosition.x, posBDefault.localPosition.y + .83f, posBDefault.localPosition.z);
+                     posB.localPosition = new Vector3(posBDefault.localPosition.x, posBDefault.localPosition.y + .83f, posBDefault.localPosition.z);
+                   
                     break;
 
                 case 1:
                     posB.localPosition = new Vector3(posBDefault.localPosition.x - .8f, posBDefault.localPosition.y + .7f, posBDefault.localPosition.z);
+                    
                     break;
 
                 case 2:
@@ -539,23 +667,22 @@ public class BaseballController1 : MonoBehaviour
                 case 30:
                     posB.localPosition = new Vector3(posBDefault.localPosition.x + .27f, posBDefault.localPosition.y - .99f, posBDefault.localPosition.z);
                     break;
-            }
+            }*/
         }
 
-        Debug.Log($"this is endpoint {endPoses} and pitch type {pitchTypes}");
+      //  Debug.Log($"this is endpoint {endPoses} and pitch type {pitchType}");
 
         if (Strikes.Contains(endPoses))
         {
-
             BallType = "Strike";
 
             CorrectAns.text = $"Answer: {pitchType} - {BallType}";
 
             pitchBallBoth = pitchValue + "0";
 
-            Debug.Log($"111 ...............{endPoses} pitchType {pitchValue} and 0 correct ans {pitchBallBoth}");
+           // Debug.Log($"strike {pitchValue} and 0 correct ans {pitchBallBoth}");
         }
-        else if (Balls.Contains(endPoses))
+        else //if (Balls.Contains(endPoses))
         {
 
             BallType = "Ball";
@@ -563,10 +690,8 @@ public class BaseballController1 : MonoBehaviour
             CorrectAns.text = $"Answer: {pitchType} - {BallType}";
             pitchBallBoth = pitchValue + "1";
 
-            Debug.Log($"111 ...............{endPoses} pitchType {pitchValue} and 1 and correct ans {pitchBallBoth}");
+          //  Debug.Log($"ball {pitchValue} and 1 and correct ans {pitchBallBoth}");
         }
-
-
 
     }
 
@@ -574,7 +699,7 @@ public class BaseballController1 : MonoBehaviour
 
     IEnumerator Delay()
     {
-
+        Debug.Log($"this is 2 execution");
         yield return new WaitForSeconds(0f);
         videoPlayer.frame = 1;
         videoPlayer1.frame = 1;
@@ -601,6 +726,23 @@ public class BaseballController1 : MonoBehaviour
         Vector3 f = AnimMath.Lerp(c, d, percent);
 
         return f;
+    }
+
+    private Vector3 CalcPositionOnCurveChangeUP(float percent)
+    {
+        Vector3 c = AnimMath.Lerp(posA.position, handle.position, percent);
+        Vector3 d = AnimMath.Lerp(handle.position, handle2.position, percent);
+        Vector3 e = AnimMath.Lerp(handle2.position, posB.position, percent);
+
+
+        Vector3 f = AnimMath.Lerp(c, d, percent);
+        Vector3 g = AnimMath.Lerp(d, e, percent);
+
+
+        Vector3 h = AnimMath.Lerp(f, g, percent);
+
+
+        return h;
     }
 
     private void OnDrawGizmos()

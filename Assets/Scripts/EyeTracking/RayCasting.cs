@@ -9,20 +9,22 @@ public class RayCasting : MonoBehaviour
     //NOTE TO SELF    IMPORTANT     Make sure to have this script completely disable the balls/strikes objects
     //so that they do not block the cast for any other gamemode
 
+    public BaseballController1 baseballController1;
+
     public static bool overBall = false;
     public static bool overUI;
 
     public static bool leftHanded = false;
     public static bool menu1 = true;
     public static bool gameJustStarted = false;
-    public static int guess;
+    public static string guess;
     public static bool Count = false;
     public static int gameState;
     private bool resetGame = true;
     
 
     public static int accuracySetting = 0;
-    public static int velocitySetting = 0;
+    public static int velocitySetting = 3;
     public static int pitcher = 0;
     public static bool isPause = false;
 
@@ -113,9 +115,13 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 00;
+                            guess = "00";
                             //BaseballController1.CorrectAns.text = $"Answer: Fastball - Strike";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
+
+
                         }
                         overUI = true;
                     }
@@ -128,9 +134,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 01;
+                            guess = "01";
                             //BaseballController1.CorrectAns.text = $"Answer: Fastball - Ball";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -143,9 +151,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 10;
+                            guess = "10";
                            // BaseballController1.CorrectAns.text = $"Answer: Curveball - Strike";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -158,9 +168,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 11;
+                            guess = "11";
                            // BaseballController1.CorrectAns.text = $"Answer: Curveball - Ball";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -173,9 +185,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 20;
+                            guess = "20";
                            // BaseballController1.CorrectAns.text = $"Answer: Slider - Strike";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -188,9 +202,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 21;
+                            guess = "21";
                           //  BaseballController1.CorrectAns.text = $"Answer: Slider - Ball";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -203,9 +219,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 30;
+                            guess = "30";
                           //  BaseballController1.CorrectAns.text = $"Answer: Change - Strike";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -218,9 +236,11 @@ public class RayCasting : MonoBehaviour
                         if (Input.anyKeyDown)
                         {
                             Count = true;
-                            guess = 31;
+                            guess = "31";
                            // BaseballController1.CorrectAns.text = $"Answer: Change - Ball";
                             BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
                         }
                         overUI = true;
                     }
@@ -518,6 +538,28 @@ public class RayCasting : MonoBehaviour
 
                     if (UIController.settingsOpen)
                     {
+                        if (hitGameObject.name == "BudButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                pitcher = 0;
+                            }
+                        }
+                        if (hitGameObject.name == "HiroButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                pitcher = 1;
+                            }
+                        }
+                        if (hitGameObject.name == "DanteButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                pitcher = 2;
+                            }
+                        }
+
                         if (hitGameObject.name == "SwingButton")
                         {
                             if (Input.anyKeyDown)
