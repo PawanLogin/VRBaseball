@@ -27,6 +27,9 @@ namespace SwingTriger
         public static int pitcher = 0;
         public static bool isPause = false;
 
+        public GameObject pauseButton;
+        public GameObject ResumeButton;
+
         int layerMask = 1 << 4;
         int layerMask2 = 1 << 1;
 
@@ -629,14 +632,14 @@ namespace SwingTriger
                     // This block of the code is added by Abhiwan ....................................
                     case 2:
 
-                        if (SwingTriger.UIController.settingsOpen)
+                        if (SwingTriger.UIController.settingsPanel)
                         {
-                            if (hitGameObject.name == "SwingButton")
+                            if (hitGameObject.name == "BinaryButton")
                             {
                                 if (Input.anyKeyDown)
                                 {
-                                    //SceneManager.LoadScene("SwingTrigger", LoadSceneMode.Single);         // un-comment this once swing trigger is built
-                                    //resetGame = true;
+                                    SceneManager.LoadScene("BinaryPitch", LoadSceneMode.Single);         // un-comment this once swing trigger is built
+                                    resetGame = true;
                                 }
                             }
                             if (hitGameObject.name == "EyeButton")
@@ -647,6 +650,29 @@ namespace SwingTriger
                                     resetGame = true;
                                 }
                             }
+
+                            if (hitGameObject.name == "BudButton")
+                            {
+                                if (Input.anyKeyDown)
+                                {
+                                    pitcher = 0;
+                                }
+                            }
+                            if (hitGameObject.name == "HiroButton")
+                            {
+                                if (Input.anyKeyDown)
+                                {
+                                    pitcher = 1;
+                                }
+                            }
+                            if (hitGameObject.name == "DanteButton")
+                            {
+                                if (Input.anyKeyDown)
+                                {
+                                    pitcher = 2;
+                                }
+                            }
+
                             if (hitGameObject.name == "SpeedOne")
                             {
                                 if (Input.anyKeyDown)
@@ -711,11 +737,12 @@ namespace SwingTriger
                                     accuracySetting = 2;
                                 }
                             }
+
                             if (hitGameObject.name == "ExitSettingsButton")
                             {
                                 if (Input.anyKeyDown)
                                 {
-                                    SwingTriger.UIController.settingsOpen = false;
+                                    SwingTriger.UIController.settingsPanel = false;
                                 }
                             }
 
@@ -728,7 +755,6 @@ namespace SwingTriger
                                 overUI = true;
 
                             }
-
                             if (hitGameObject.name == "LeftHand")
                             {
                                 if (Input.anyKeyDown && SwingTriger.ScoreHandler.GameOver)
@@ -744,7 +770,7 @@ namespace SwingTriger
                         {
                             if (Input.anyKeyDown)
                             {
-                                SwingTriger.UIController.settingsOpen = true;
+                                SwingTriger.UIController.settingsPanel = true;
                             }
                         }
                         // Debug.Log($"hitGameObject.name {hitGameObject.name}");
@@ -755,6 +781,7 @@ namespace SwingTriger
                             {
                                // Debug.Log("Hi ..."+ Input.anyKeyDown);
                                 SwingTriger.ScoreHandler.GameOver = false;
+                                SwingTriger.UIController.settingsPanel = false;
                                 gameJustStarted = true;
                             }
                             overUI = true;
@@ -766,6 +793,35 @@ namespace SwingTriger
                             if (Input.anyKeyDown)
                             {
                                 SwingTriger.ScoreHandler.GameOver = true;
+                            }
+                            overUI = true;
+
+                        }
+
+                        if (hitGameObject.name == "Pause")
+                        {
+
+                            if (Input.anyKeyDown)
+                            {
+                                isPause = true;
+                                //Time.timeScale = 0;
+                                pauseButton.gameObject.SetActive(false);
+                                ResumeButton.gameObject.SetActive(true);
+                                Debug.LogError($"this is back button {hitGameObject.name}");
+                            }
+                            overUI = true;
+
+                        }
+
+                        if (hitGameObject.name == "Resume")
+                        {
+
+                            if (Input.anyKeyDown)
+                            {
+                                isPause = false;
+                                pauseButton.gameObject.SetActive(true);
+                                ResumeButton.gameObject.SetActive(false);
+                                Debug.LogError($"this is back button {hitGameObject.name}");
                             }
                             overUI = true;
 

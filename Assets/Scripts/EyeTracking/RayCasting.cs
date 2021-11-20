@@ -381,6 +381,7 @@ public class RayCasting : MonoBehaviour
                                 velocitySetting = 6;
                             }
                         }
+
                         if (hitGameObject.name == "ExitSettingsButton")
                         {
                             if (Input.anyKeyDown)
@@ -388,6 +389,7 @@ public class RayCasting : MonoBehaviour
                                 UIController.settingsOpen = false;
                             }
                         }
+
                         if (hitGameObject.name == "RightHand")
                         {
                             if (Input.anyKeyDown && ScoreHandler.GameOver)
@@ -397,7 +399,6 @@ public class RayCasting : MonoBehaviour
                             overUI = true;
 
                         }
-
                         if (hitGameObject.name == "LeftHand")
                         {
                             if (Input.anyKeyDown && ScoreHandler.GameOver)
@@ -576,6 +577,16 @@ public class RayCasting : MonoBehaviour
                                 resetGame = true;
                             }
                         }
+
+                        if (hitGameObject.name == "SwingButton")
+                        {
+                            if (Input.anyKeyDown)
+                            {
+                                SceneManager.LoadScene("SwingTrigger", LoadSceneMode.Single);
+                                resetGame = true;
+                            }
+                        }
+
                         if (hitGameObject.name == "SpeedOne")
                         {
                             if (Input.anyKeyDown)

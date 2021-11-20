@@ -156,14 +156,15 @@ public class ScoreHandler1 : MonoBehaviour
         updateText(RayCasting.guess, BaseballController1.pitchBallBoth);
         if (idNum > 14)
         {
-            endGame();
+            StartCoroutine(endGame());
             idNum = 0;
         }
 
     }
 
-    private void endGame()
+    private IEnumerator endGame()
     {
+        yield return new WaitForSeconds(2f);
         ResultPanel();
         //SetValues();
         GameOver = true;

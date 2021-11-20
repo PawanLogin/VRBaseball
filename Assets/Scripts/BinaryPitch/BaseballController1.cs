@@ -63,7 +63,7 @@ public class BaseballController1 : MonoBehaviour
 
     [Range(.1f, 10)] public float tweenLength = 3;
     public AnimationCurve tweenSpeed;
-    private float tweenTimer = 0;
+    public float tweenTimer = 0;
     public static bool isTweening = false;
     public static bool hasChosenAnswer = true;
     public static bool hasThrownOne = false;
@@ -73,6 +73,8 @@ public class BaseballController1 : MonoBehaviour
 
     private List<int> Balls = new List<int>();
     private List<int> Strikes = new List<int>();
+
+    public GameObject blurEffectPanel;
 
 
     void Start()
@@ -158,6 +160,15 @@ public class BaseballController1 : MonoBehaviour
 
         }
 
+        if(videoPlayer.frame > 100 && videoPlayer.frame <= 105)
+        {
+            blurEffectPanel.SetActive(true);
+        }
+        else
+        {
+            blurEffectPanel.SetActive(false);
+        }
+
         //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
 
 
@@ -170,9 +181,10 @@ public class BaseballController1 : MonoBehaviour
         //This removes the ball when the ball reaches the end of the line
         if (transform.position.z <= .53f)
         {
+            Debug.Log($"this is remove ball calling function");
             transform.position = new Vector3(0, -20, 0);
-            isTweening = false;
-            tweenTimer = 0;
+           // isTweening = false;
+            //tweenTimer = 0;
         }
 
 
@@ -413,7 +425,7 @@ public class BaseballController1 : MonoBehaviour
 
 
         pitchTypes = Random.Range(0, 4);
-        //pitchTypes = 3;
+       // pitchTypes = 3;
         endPoses = Random.Range(1, 31);
 
 

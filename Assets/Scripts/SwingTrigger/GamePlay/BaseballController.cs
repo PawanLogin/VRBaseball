@@ -68,6 +68,7 @@ namespace SwingTriger
 
         public static BaseballController instance;
 
+        public GameObject blurEffectPanel;
         private void Awake()
         {
             // Debug.Log("Disable line Render");
@@ -204,6 +205,16 @@ namespace SwingTriger
                 // lineRenderer.enabled = false;
                 // SwingTriger.ScoreHandler.strikeZoneVisible = false;
                 // SwingTriger.UIController.settingsOpen = false;
+            }
+
+
+            if (videoPlayer.frame > 100 && videoPlayer.frame <= 105)
+            {
+                blurEffectPanel.SetActive(true);
+            }
+            else
+            {
+                blurEffectPanel.SetActive(false);
             }
 
             //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
@@ -425,8 +436,8 @@ namespace SwingTriger
             {
                 // Debug.Log($"6B inside condition...transform.position.z .....{transform.position.z}.....");
                 transform.position = new Vector3(0, -20, 0);
-                isTweening = false;
-                tweenTimer = 0;
+                //isTweening = false;
+                //tweenTimer = 0;
             }
 
             if (!SwingTriger.ScoreHandler.GameOver && !isTweening && !videoPlayer.isPlaying  && playAgain)
@@ -617,7 +628,7 @@ namespace SwingTriger
 
                 //Change amount needed to adjust for pitcher positioning here
                 case 1:
-                    posA.position = posX.position;
+                    posA.position = posY.position;
 
                     break;
 

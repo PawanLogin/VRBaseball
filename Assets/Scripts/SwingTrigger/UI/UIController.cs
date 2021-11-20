@@ -11,6 +11,7 @@ namespace SwingTriger
         public int UIType;
         public Canvas rend;
         public static bool settingsOpen = false;
+        public static bool settingsPanel = false;
         public static bool playAgainOpen = false;
         public static bool finalResultOpen = false;
         public static bool isFirstTimePlay = true;
@@ -161,6 +162,16 @@ namespace SwingTriger
                         // Debug.Log($"this gameobj nam {this.gameObject.name} ... uitype {UIType}");
                         switch (UIType)
                         {
+                            case 0:
+                                if (settingsPanel)
+                                {
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    rend.enabled = false;
+                                }
+                                break;
                             case 1:
                                 rend.enabled = false;
                                 break;
@@ -207,6 +218,16 @@ namespace SwingTriger
                         // Debug.Log($"this gameobj nam {this.gameObject.name} else UIType ... " + UIType);
                         switch (UIType)
                         {
+                            case 0:
+                                if (settingsPanel)
+                                {
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    rend.enabled = false;
+                                }
+                                break;
                             case 1:
                                 rend.enabled = true;
                                 //if (!SwingTriger.ScoreHandler.PitcherIntervalSwingTrigger)
@@ -266,6 +287,16 @@ namespace SwingTriger
                         // Debug.Log($"this gameobj nam {this.gameObject.name} else UIType ... " + UIType);
                         switch (UIType)
                         {
+                            case 0:
+                                if (settingsPanel)
+                                {
+                                    rend.enabled = true;
+                                }
+                                else
+                                {
+                                    rend.enabled = false;
+                                }
+                                break;
                             case 1:
                                 if (playAgainOpen)
                                 {
