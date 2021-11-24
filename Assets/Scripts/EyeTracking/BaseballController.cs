@@ -97,14 +97,14 @@ public class BaseballController : MonoBehaviour
             ScoreHandler.strikeZoneVisible = false;
         }
 
-        if (videoPlayer.frame > 100 && videoPlayer.frame <= 105)
+     /*   if (videoPlayer.frame > 100 && videoPlayer.frame <= 105)
         {
-            blurEffectPanel.SetActive(true);
+            blurEffectPanel.SetActive(false);
         }
         else
         {
             blurEffectPanel.SetActive(false);
-        }
+        }*/
 
         //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
 

@@ -160,14 +160,14 @@ public class BaseballController1 : MonoBehaviour
 
         }
 
-        if(videoPlayer.frame > 100 && videoPlayer.frame <= 105)
+       /* if(videoPlayer.frame > 100 && videoPlayer.frame <= 105)
         {
-            blurEffectPanel.SetActive(true);
+            blurEffectPanel.SetActive(false);
         }
         else
         {
             blurEffectPanel.SetActive(false);
-        }
+        }*/
 
         //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
 
@@ -425,7 +425,7 @@ public class BaseballController1 : MonoBehaviour
 
 
         pitchTypes = Random.Range(0, 4);
-       // pitchTypes = 3;
+      // pitchTypes = 3;
         endPoses = Random.Range(1, 31);
 
 
@@ -498,12 +498,11 @@ public class BaseballController1 : MonoBehaviour
             {
                 case 0:
                     //4S Fastball
-                  //  handle.localPosition = handleDefault.localPosition;
-                    handle.localPosition  = endPointPosition[endPoses].localPosition;
+                    //handle.localPosition = handleDefault.localPosition;
+                   // handle.localPosition  = endPointPosition[endPoses].localPosition;
 
                     pitchType = "FastBall";
                     pitchValue = "0";
-
 
                     break;
 
@@ -543,7 +542,7 @@ public class BaseballController1 : MonoBehaviour
                     handle.localPosition = handleDefaultChangeUp[ramdomChangeUP].localPosition;
 
                     int ramdomChangeUP1 = Random.Range(0, handleDefaultChangeUp1.Count);
-                    handle2.localPosition = handleDefaultChangeUp1[ramdomChangeUP].localPosition;
+                    handle2.localPosition = handleDefaultChangeUp1[ramdomChangeUP1].localPosition;
                     // Debug.Log($"this is handle position {handle.localPosition}");
                     break;
             }

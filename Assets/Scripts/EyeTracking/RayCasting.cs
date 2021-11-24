@@ -428,6 +428,7 @@ public class RayCasting : MonoBehaviour
                             ScoreHandler.GameOver = false;
                             UIController.finalResultOpen = false;
                             gameJustStarted = true;
+                            isPause = false;
                         }
                         overUI = true;
                     }
@@ -695,6 +696,7 @@ public class RayCasting : MonoBehaviour
                         {
                             ScoreHandler1.GameOver = false;
                             gameJustStarted = true;
+                            isPause = false;
                         }
                         overUI = true;
                     }
