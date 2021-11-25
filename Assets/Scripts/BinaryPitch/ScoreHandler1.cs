@@ -165,6 +165,7 @@ public class ScoreHandler1 : MonoBehaviour
     private IEnumerator endGame()
     {
         yield return new WaitForSeconds(2f);
+        UIController.finalResultForBinary = true;
         ResultPanel();
         //SetValues();
         GameOver = true;
@@ -172,7 +173,7 @@ public class ScoreHandler1 : MonoBehaviour
 
     }
 
-    private void clearValues()
+    public void clearValues()
     {
 
         scores.Clear();
@@ -353,7 +354,8 @@ public class ScoreHandler1 : MonoBehaviour
         containerYouranswer.ClearButNotZeroIndex();
         containerCorrectAnswer.ClearButNotZeroIndex();
 
-
+        avarageScoreText.text = "0";
+        totalCorrectOutofTotal.text = "0";
     }
 
 

@@ -49,7 +49,7 @@ namespace SwingTriger
         private float tweenTimer = 0;
         public static bool isTweening = false;
         [SerializeField]
-        private LineRenderer lineRenderer;
+        public LineRenderer lineRenderer;
         [SerializeField]
         private Material lineRendererMat_G;
         [SerializeField]

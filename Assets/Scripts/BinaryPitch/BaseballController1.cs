@@ -424,8 +424,8 @@ public class BaseballController1 : MonoBehaviour
 
 
 
-        pitchTypes = Random.Range(0, 4);
-      // pitchTypes = 3;
+        //pitchTypes = Random.Range(0, 4);
+       pitchTypes =0;
         endPoses = Random.Range(1, 31);
 
 

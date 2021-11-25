@@ -11,6 +11,8 @@ public class RayCasting : MonoBehaviour
 
     public BaseballController1 baseballController1;
 
+    public ScoreHandler1 scoreHandler1;
+
     public static bool overBall = false;
     public static bool overUI;
 
@@ -697,6 +699,12 @@ public class RayCasting : MonoBehaviour
                             ScoreHandler1.GameOver = false;
                             gameJustStarted = true;
                             isPause = false;
+
+                            BaseballController1.hasChosenAnswer = true;
+                            baseballController1.CancelInvoke("PlayAgain");
+                            baseballController1.Invoke("PlayAgain", 2f);
+                            UIController.finalResultForBinary = false;
+                            scoreHandler1.clearValues();
                         }
                         overUI = true;
                     }

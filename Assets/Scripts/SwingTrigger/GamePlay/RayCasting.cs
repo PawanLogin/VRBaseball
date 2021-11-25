@@ -9,7 +9,7 @@ namespace SwingTriger
 
         //NOTE TO SELF    IMPORTANT     Make sure to have this script completely disable the balls/strikes objects
         //so that they do not block the cast for any other gamemode
-
+        public ScoreHandler scoreHandler;
         public static bool overBall = false;
         public static bool overUI;
 
@@ -789,13 +789,22 @@ namespace SwingTriger
 
                         if (hitGameObject.name == "BackButton")
                         {
-
                             if (Input.anyKeyDown)
                             {
                                 SwingTriger.ScoreHandler.GameOver = true;
+                                scoreHandler.pitcherCounter.text = "0";
+                                UIController.isFirstTimePlay = true;
+                                SwingTriger.UIController.settingsOpen = false;
+                                SwingTriger.ScoreHandler.strikeZoneVisible = false;
+                                SwingTriger.BaseballController.instance.lineRenderer.enabled = false;
+
+                                GameplayController.instance.reactionTimeList.Clear();
+                                GameplayController.instance.myAnswersPitchList.Clear();
+                                GameplayController.instance.correctAnswersPitchList.Clear();
+
+                                FinalResultsCanvasController.instance.correctAnsCount = 0;
                             }
                             overUI = true;
-
                         }
 
                         if (hitGameObject.name == "Pause")

@@ -9,6 +9,7 @@ namespace SwingTriger
 {
     public class ScoreHandler : MonoBehaviour
     {
+
         public static bool GameOver = true;
         public static bool PitcherIntervalSwingTrigger = false;
         public static bool strikeZoneVisible = false;
@@ -229,7 +230,7 @@ namespace SwingTriger
             }
         }
 
-        private void endGame()
+        public void endGame()
         {
             //SetValues();
             GameOver = true;

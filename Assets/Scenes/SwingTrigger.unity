@@ -8057,7 +8057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804841073}
   m_LocalRotation: {x: 0.00000034637426, y: -0.7071068, z: 0.7071068, w: -0.00000036552}
-  m_LocalPosition: {x: -6.4391584, y: -6.375403, z: -1.1411953}
+  m_LocalPosition: {x: -6.44, y: -6.59, z: -1.1411953}
   m_LocalScale: {x: 1.0717138, y: 1.0717138, z: 1.0717138}
   m_Children: []
   m_Father: {fileID: 1144883740}
@@ -8809,7 +8809,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865247595}
   m_LocalRotation: {x: 0.00000034637426, y: -0.7071068, z: 0.7071068, w: -0.00000036552}
-  m_LocalPosition: {x: -6.4521585, y: -6.375403, z: -1.1411953}
+  m_LocalPosition: {x: -6.45, y: -6.8, z: -1.1411953}
   m_LocalScale: {x: 0.97525966, y: 0.9752596, z: 0.9752596}
   m_Children: []
   m_Father: {fileID: 1144883740}
@@ -9825,6 +9825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42bd18e7f5d52ce4c9f2fbb94f31fbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreHandler: {fileID: 907292810}
   pauseButton: {fileID: 373749409}
   ResumeButton: {fileID: 2142646732}
 --- !u!1001 &960243002
@@ -16555,7 +16556,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764844446}
   m_LocalRotation: {x: 0.00000034637426, y: -0.7071068, z: 0.7071068, w: -0.00000036552}
-  m_LocalPosition: {x: -6.9721584, y: -6.295403, z: -1.1411953}
+  m_LocalPosition: {x: -6.97, y: -6.51, z: -1.1411953}
   m_LocalScale: {x: 0.54807, y: 0.54807, z: 0.54807}
   m_Children: []
   m_Father: {fileID: 1144883740}

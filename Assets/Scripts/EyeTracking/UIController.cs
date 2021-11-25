@@ -13,6 +13,8 @@ public class UIController : MonoBehaviour
     public static bool finalResultOpen = false;
     public static bool playAgainOpen = false;
 
+    public static bool finalResultForBinary = false;
+
     
 
     void Start()
@@ -190,11 +192,13 @@ public class UIController : MonoBehaviour
                         case 4:
                             if (!BaseballController1.hasChosenAnswer && !BaseballController1.isTweening && BaseballController1.hasThrownOne)
                             {
-                                rend.enabled = true;
+                               rend.enabled = true;
+                               // rend.gameObject.SetActive(true);
                             }
                             else
                             {
                                 rend.enabled = false;
+                               // rend.gameObject.SetActive(false);
                             }
                             break;
                         case 5:
@@ -223,12 +227,20 @@ public class UIController : MonoBehaviour
                             rend.enabled = true;
                             break;
                         case 2:
-                            rend.enabled = true;
+                            if (finalResultForBinary)
+                            {
+                                rend.enabled = true;
+                            }
+                            else
+                            {
+                                rend.enabled = false;
+                            }
                             break;
                         case 3:
                             rend.enabled = false;
                             break;
                         case 4:
+                           // rend.gameObject.SetActive(false);
                             rend.enabled = false;
                             break;
                         case 5:
