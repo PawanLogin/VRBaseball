@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 namespace SwingTriger
 {
-public enum PitchType{FourSeamFastball, TwoSeamFastball, ChangeUp, Slider, Curveball};
+public enum PitchType{ Fastball, FourSeamFastball, TwoSeamFastball, ChangeUp, Slider, Curveball};
 public class GameplayController : MonoBehaviour
 {
     public int totalQuestions;
-    public List<PitchType> myAnswersPitchList, correctAnswersPitchList;
+    public List<String> correctAnswersPitchList;
+        public List<string> myAnswersPitchList;
+        public List<string> BallTypeList;
     public List<float> reactionTimeList;
     public static GameplayController instance;
 
@@ -27,6 +29,7 @@ public class GameplayController : MonoBehaviour
     }
     public string GetPitchString(PitchType pitchType)
     {
+            Debug.Log("here is showing score");
         string str="";
         if(pitchType==PitchType.FourSeamFastball)
             str="4 Seam Fastball";
@@ -47,11 +50,11 @@ public class GameplayController : MonoBehaviour
         correctAnswersPitchList.Clear();
         reactionTimeList.Clear();
     }
-    public void AddMyAnswersEntry(PitchType pType)
+    public void AddMyAnswersEntry(string aType)
     {
-        myAnswersPitchList.Add(pType);
+        myAnswersPitchList.Add(aType);
     }
-    public void AddCorrectAnswersEntry(PitchType pType)
+    public void AddCorrectAnswersEntry(string pType)
     {
         correctAnswersPitchList.Add(pType);
     }

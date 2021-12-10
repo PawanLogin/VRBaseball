@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace SwingTriger
 {
     public class ScoreHandler : MonoBehaviour
     {
+
         public static bool GameOver = true;
         public static bool PitcherIntervalSwingTrigger = false;
         public static bool strikeZoneVisible = false;
 
         public GameObject strikeZone;
         private MeshRenderer rend;
+        private MeshRenderer rendFinalPanel;
+        private MeshRenderer rendPlayAgain;
 
         private Vector3 leftPos;
         private Vector3 rightPos;
@@ -26,9 +30,11 @@ namespace SwingTriger
 
         public static List<int> scores = new List<int>();
         public static List<string> ballTypes = new List<string>();
+        //public static List<string> reactionTimeList = new List<string>();
 
         public Text BallType;
         public Text BallScore;
+        public TextMeshProUGUI pitcherCounter;
 
         public Text score1;
         public Text score2;
@@ -52,6 +58,7 @@ namespace SwingTriger
         public Text ball9;
         public Text ball10;
         float reactionTime;
+        public static float timeSpan;
         bool isEnableObj;
 
         public GameObject textMeshPro;
@@ -88,6 +95,7 @@ namespace SwingTriger
                 SwingTriger.RayCasting.gameJustStarted = false;
                 clearValues();
                 pitchNumber = 0;
+                //UIController.isFirstTimePlay = true;
             }
          
             if (Input.GetMouseButtonDown(0))
@@ -95,23 +103,26 @@ namespace SwingTriger
                 if (SwingTriger.BaseballController.instance.isballthrough)
                 {
                     reactionTime = Time.time;
-                    Debug.Log("clk time..." + reactionTime);
-                    float timeSpan = -SwingTriger.BaseballController.instance.startTimeAbhiwan + reactionTime;
-                    Debug.Log("Reaction time..."+ timeSpan);
+                    //Debug.Log($"reaction Time {reactionTime}");
+                    timeSpan = -SwingTriger.BaseballController.instance.startTimeAbhiwan + reactionTime;
                     textMeshPro.GetComponent<TMPro.TMP_Text>().text = String.Format("{0:0.000}", timeSpan) + " milliseconds";
+                    
                     StartCoroutine(RemoveTxt());
                    
                 }
                 else
                 {
+
                     textMeshPro.GetComponent<TMPro.TMP_Text>().text = String.Format("{0:0.000}", 0) + " milliseconds";
+                   // Debug.Log($"reaction Time {textMeshPro.GetComponent<TMPro.TMP_Text>().text}");
+                    //reactionTimeList.Add(textMeshPro.GetComponent<TMPro.TMP_Text>().text);
                 }
             }
         }
 
         IEnumerator RemoveTxt()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(7f);
             textMeshPro.GetComponent<TMPro.TMP_Text>().text = String.Format("{0:0.000}", 0) + " milliseconds";
         }
 
@@ -141,6 +152,7 @@ namespace SwingTriger
                     percentage *= 100;
                     int floorPercent = Mathf.FloorToInt(percentage);
                     pitchNumber++;
+                    pitcherCounter.text = pitchNumber.ToString() + " of 15";
                     // Debug.Log("pitchNumber "+ pitchNumber);
                     storeData(pitchNumber, floorPercent, converter(SwingTriger.BaseballController.pitchTypes));
                     //Resetting for next pitch
@@ -182,22 +194,50 @@ namespace SwingTriger
             }
         }
 
+        private IEnumerator FinalResultPanel()
+        {
+            UIController.finalResultOpen = false;
+            yield return new WaitForSeconds(7f);
+            UIController.finalResultOpen = true;
+        }
+
+        private IEnumerator PlayAgainPanel()
+        {
+
+            UIController.playAgainOpen = false;
+            
+            yield return new WaitForSeconds(3f);
+            FinalResultsCanvasController.instance.ClearAndAddEntries();
+            yield return new WaitForSeconds(7f);
+            UIController.playAgainOpen = true;
+            GameplayController.instance.reactionTimeList.Clear();
+            GameplayController.instance.myAnswersPitchList.Clear();
+            GameplayController.instance.correctAnswersPitchList.Clear();
+            pitcherCounter.text = "0";
+            FinalResultsCanvasController.instance.correctAnsCount = 0;
+        }
+
         private void storeData(int idNum, int score, string ballType)
         {
             updateText(score, ballType);
             scores.Add(score);
             ballTypes.Add(ballType);
 
-            if (idNum > 19)
+            if (idNum > 14)
             {
                 endGame();
+                
             }
         }
 
-        private void endGame()
+        public void endGame()
         {
             //SetValues();
             GameOver = true;
+            UIController.isFirstTimePlay = false;
+            StartCoroutine(PlayAgainPanel());
+            StartCoroutine(FinalResultPanel());
+            
             //clearValues();
 
         }
@@ -227,7 +267,7 @@ namespace SwingTriger
         private void updateText(int score, string ballType)
         {
 
-            BallType.text = ballType;
+            BallType.text = BaseballController.instance.pitchType.text; //  ballType;
             BallScore.text = score + "%";
 
         }
@@ -284,6 +324,8 @@ namespace SwingTriger
 
         private string converter(int ballType)
         {
+            Debug.Log("Here is the score board");
+
             switch (ballType)
             {
                 case 0:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScoreHandler : MonoBehaviour
 {
@@ -19,9 +20,21 @@ public class ScoreHandler : MonoBehaviour
 
     private bool doOnce = true;
     private int pitchNumber = 0;
+    public TextMeshProUGUI pitchText;
 
     public static List<int> scores = new List<int>();
     public static List<int> ballTypes = new List<int>();
+
+    public  List<string> leaderboardScore = new List<string>();
+    public  List<string> leaderboardBallType = new List<string>();
+
+    public GameObject containerBallType;
+    public GameObject containerScore;
+    public GameObject BallTypePrefeb;
+    public GameObject ScorePrefeb;
+
+    public TextMeshProUGUI avarageScoreText;
+    public BaseballController bs;
 
     public Text BallType;
     public Text BallScore;
@@ -57,6 +70,8 @@ public class ScoreHandler : MonoBehaviour
         BallType.text = "...";
         BallScore.text =  "0%";
         rend = strikeZone.GetComponent<MeshRenderer>();
+
+        //Debug.Log(GameObject.Find("Player"));
     }
 
     void Update()
@@ -81,6 +96,7 @@ public class ScoreHandler : MonoBehaviour
             RayCasting.gameJustStarted = false;
             clearValues();
             pitchNumber = 0;
+            pitchText.text = "0 of 15";
         }
 
     }
@@ -107,7 +123,7 @@ public class ScoreHandler : MonoBehaviour
                 percentage *= 100;
                 int floorPercent = Mathf.FloorToInt(percentage);
                 pitchNumber++;
-
+                pitchText.text = pitchNumber.ToString() + " of 15";
                 storeData(pitchNumber, floorPercent, converter(BaseballController.pitchTypes));
                 
 
@@ -129,6 +145,26 @@ public class ScoreHandler : MonoBehaviour
         {
             rend.enabled = false;
         }
+    }
+
+    private void FinalResultPanel()
+    {
+        UIController.finalResultOpen = true;
+    }
+    private IEnumerator PlayAgainPanel()
+    {
+
+       // UIController.playAgainOpen = false;
+
+        yield return new WaitForSeconds(0f);
+        //FinalResultsCanvasController.instance.ClearAndAddEntries();
+        yield return new WaitForSeconds(0f);
+        UIController.playAgainOpen = true;
+        // GameplayController.instance.reactionTimeList.Clear();
+        // GameplayController.instance.myAnswersPitchList.Clear();
+        // GameplayController.instance.correctAnswersPitchList.Clear();
+        pitchText.text = "0 of 15";
+        //FinalResultsCanvasController.instance.correctAnsCount = 0;
     }
 
     private void storeData(int idNum, int score, string ballType)
@@ -162,7 +198,7 @@ public class ScoreHandler : MonoBehaviour
         updateText(score, converter(tempNum));
         scores.Add(score);
 
-        if (idNum > 19)
+        if (idNum > 14)
         {
             endGame();
         }
@@ -171,8 +207,14 @@ public class ScoreHandler : MonoBehaviour
 
     private void endGame()
     {
+        ResultPanel();
         //SetValues();
         GameOver = true;
+        UIController.isFirstTimePlay = false;
+        StartCoroutine(PlayAgainPanel());
+        FinalResultPanel();
+       
+       // UIController.finalResultOpen = true;
         //clearValues();
 
     }
@@ -183,6 +225,16 @@ public class ScoreHandler : MonoBehaviour
         scores.Clear();
         ballTypes.Clear();
 
+        leaderboardBallType.Clear();
+        leaderboardScore.Clear();
+    }
+
+    private void ClearAllHolders()
+    {
+        containerBallType.ClearButNotZeroIndex();
+        containerScore.ClearButNotZeroIndex();
+
+       
     }
 
     private void movePlayer()
@@ -205,6 +257,44 @@ public class ScoreHandler : MonoBehaviour
         BallType.text = ballType;
         BallScore.text = score + "%";
 
+        leaderboardBallType.Add(ballType);
+        leaderboardScore.Add(score + "%");
+
+    }
+
+    public void ResultPanel()
+    {
+        ClearAllHolders();
+
+        foreach (var item in leaderboardScore)
+        {
+            var instantiatedObject = Instantiate(ScorePrefeb, containerScore.transform);
+            var textObject = instantiatedObject.GetComponentInChildren<TextMeshProUGUI>();
+            // Debug.Log(item);
+            textObject.text = item;
+        }
+
+        foreach (var item in leaderboardBallType)
+        {
+            var instantiatedObject = Instantiate(BallTypePrefeb, containerBallType.transform);
+            var textObject = instantiatedObject.GetComponentInChildren<TextMeshProUGUI>();
+            // Debug.Log(item);
+            textObject.text = item;
+        }
+
+        avarageScoreText.text = Avarage();
+    }
+
+    public string Avarage()
+    {
+        float avarageScore = 0;
+        foreach (var item in scores)
+        {
+            avarageScore = avarageScore + item;
+           
+        }
+        avarageScore = avarageScore / scores.Count;
+        return avarageScore.ToString("0.0") + "%";
     }
 
     private void SetValues1()
@@ -259,21 +349,25 @@ public class ScoreHandler : MonoBehaviour
 
     private string converter(int ballType)
     {
-        switch (ballType)
-        {
-            case 0:
-                return "Four Seam";
-            case 1:
-                return "Curve Ball";
-            case 2:
-                return "Slider";
-            case 3:
-                return "Two Seam";
-            case 4:
-                return "Change Up";
-            case 5:
-                return "Cutter";
-        }
+        Debug.Log("Here is the Answer");
+        //switch (ballType)
+        //{
+        //    case 0:
+        //    //return "Four Seam";
+        //    return "ChangeUp";
+        //    case 1:
+        //        return "Curve Ball";
+        //    case 2:
+        //        return "Two Seam";
+        //    case 3:
+        //        return "Slider";
+        //    case 4:
+        //        return "ChangeUp";
+        //    case 5:
+        //        return "Cutter";
+        //}
+        if (!string.IsNullOrEmpty(bs.PitchBallType))
+            return bs.PitchBallType;
         return null;
     }
 }

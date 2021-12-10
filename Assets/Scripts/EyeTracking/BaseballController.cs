@@ -6,11 +6,12 @@ using UnityEngine.Video;
 public class BaseballController : MonoBehaviour
 {
     [SerializeField]
-    private VideoPlayer videoPlayer;
+    public VideoPlayer videoPlayer;
     [SerializeField]
-    private VideoPlayer videoPlayer1;
+    public VideoPlayer videoPlayer1;
     [SerializeField]
-    private VideoPlayer videoPlayer2;
+    public VideoPlayer videoPlayer2;
+
 
     public Transform posA;
     public Transform posX;
@@ -18,10 +19,12 @@ public class BaseballController : MonoBehaviour
     public Transform posB;
     public Transform handle;
 
+    [SerializeField]
     private List<int> Balls = new List<int>();
+    [SerializeField]
     private List<int> Strikes = new List<int>();
 
-    private Vector3 posADefault;
+    private Transform posADefault;
     public Transform posBDefault;
     public Transform handleDefault;
     public float percent = 0;
@@ -29,7 +32,7 @@ public class BaseballController : MonoBehaviour
     private float speedMultiplier = 5;
 
     private bool doOnce = true;
-
+    public string PitchBallType;
     private int timer = 200;
 
     int endPoses;
@@ -39,10 +42,12 @@ public class BaseballController : MonoBehaviour
     public AnimationCurve tweenSpeed;
     private float tweenTimer = 0;
     public static bool isTweening = false;
+    private bool once;
 
+    public GameObject blurEffectPanel;
     void Start()
     {
-        posADefault = posA.position;
+        posADefault = posA;
 
         Balls.Add(6);
         Balls.Add(7);
@@ -58,6 +63,7 @@ public class BaseballController : MonoBehaviour
         Balls.Add(26);
         Balls.Add(27);
         Balls.Add(28);
+
         Strikes.Add(1);
         Strikes.Add(2);
         Strikes.Add(3);
@@ -75,7 +81,8 @@ public class BaseballController : MonoBehaviour
         Strikes.Add(29);
     }
 
-    void Update() {
+    void Update()
+    {
 
         if (ScoreHandler.GameOver)
         {
@@ -84,7 +91,7 @@ public class BaseballController : MonoBehaviour
             videoPlayer2.Pause();
         }
 
-        if(videoPlayer.frame > 1 && videoPlayer.frame <= 60)
+        if (videoPlayer.frame > 1 && videoPlayer.frame <= 60)
         {
             ScoreHandler.strikeZoneVisible = true;
         }
@@ -92,6 +99,15 @@ public class BaseballController : MonoBehaviour
         {
             ScoreHandler.strikeZoneVisible = false;
         }
+
+     /*   if (videoPlayer.frame > 100 && videoPlayer.frame <= 105)
+        {
+            blurEffectPanel.SetActive(false);
+        }
+        else
+        {
+            blurEffectPanel.SetActive(false);
+        }*/
 
         //Future Tip:    When going to appositeHandedness of pitcher, just adjust flip the normal of the x value
 
@@ -104,32 +120,59 @@ public class BaseballController : MonoBehaviour
                 case 0:
                     //4S Fastball
                     handle.localPosition = handleDefault.localPosition;
+                    if (once)
+                    {
+                        Debug.LogError("Fast Ball Thrown ---  fast ball");
+                        PitchBallType = "Fast Ball";
+                    }
                     break;
 
                 case 1:
                     //CurveBall
                     handle.localPosition = new Vector3(handleDefault.localPosition.x + -.4f, handleDefault.localPosition.y + .4f, handleDefault.localPosition.z - .4f);
+                    if (once)
+                    {
+                        Debug.LogError("Curve Ball Thrown  -- "); //two seam
+                        PitchBallType = "Four Seam";
+                    }
                     break;
 
                 case 2:
                     //Slider
-                    handle.localPosition = new Vector3(handleDefault.localPosition.x + -.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    handle.localPosition = new Vector3(handleDefault.localPosition.x + .5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    if (once)
+                    {
+                        Debug.LogError("Slider Ball Thrown --  two seam");  //may be four or two seam
+                        PitchBallType = "Two Seam";
+                    }
                     break;
 
                 case 3:
                     //2S Fastball
                     handle.localPosition = new Vector3(handleDefault.localPosition.x - 1.5f, handleDefault.localPosition.y, handleDefault.localPosition.z);
+                    if (once)
+                    {
+                        Debug.LogError("Two Seam Ball Thrown -- Slider");
+                        PitchBallType = "Slider";
+                    }
                     break;
 
                 case 4:
                     //ChangeUp
                     handle.localPosition = new Vector3(handleDefault.localPosition.x + .3f, handleDefault.localPosition.y + .8f, handleDefault.localPosition.z - .2f);
+                    if (once)
+                    {
+                        Debug.LogError("Four Ball Thrown -- Change Up");
+                        PitchBallType = "ChangeUp";
+                    }
                     break;
             }
 
             float sizeMultiplier = 0.12f;
             //Chooses between 31 different ending positions
 
+
+           // Debug.Log("End pose is " + endPoses);
             switch (endPoses)
             {
                 case 0:
@@ -258,25 +301,26 @@ public class BaseballController : MonoBehaviour
             }
         }
 
-
+        once = false;
         //This removes the ball when the ball reaches the end of the line
         if (transform.position.z <= .53f)
         {
-            transform.position = new Vector3(0,-20,0);
-            isTweening = false;
-            tweenTimer = 0;
+            transform.position = new Vector3(0, -20, 0);
+           // isTweening = false;
+           // tweenTimer = 0;
         }
 
+        // Debug.Log($"ScoreHandler.GameOver {!ScoreHandler.GameOver} !isTweening {!isTweening} !videoPlayer.isPlaying {!videoPlayer.isPlaying}");
         if (!ScoreHandler.GameOver && !isTweening && !videoPlayer.isPlaying)
         {
-            
+            // Debug.Log("timer "+ timer);
             timer++;
-            if(timer > 60)
+            if (timer > 60)
             {
                 timer = 0;
                 playVid();
             }
-            
+
         }
 
         if (videoPlayer.frame >= 100 && doOnce && videoPlayer.frame <= 104)
@@ -284,7 +328,7 @@ public class BaseballController : MonoBehaviour
 
             doOnce = false;
             PlayTween();
-            
+
         }
 
         if (videoPlayer.frame >= 110)
@@ -298,7 +342,7 @@ public class BaseballController : MonoBehaviour
         if (isTweening)
         {
             //Controlls baseball speed with the settings menu
-            
+
             switch (RayCasting.velocitySetting)
             {
                 case 1:
@@ -354,6 +398,7 @@ public class BaseballController : MonoBehaviour
             }
         }
 
+        //SREE
         if (percent > 0)
         {
             transform.position = CalcPositionOnCurve(percent);
@@ -382,6 +427,7 @@ public class BaseballController : MonoBehaviour
 
     public void PlayTween()
     {
+        Debug.Log("Play tweening is called....");
         Vector3 pitcherOffset = new Vector3(0, 0, 0);
 
         switch (RayCasting.pitcher)
@@ -389,7 +435,7 @@ public class BaseballController : MonoBehaviour
             //Leave this one alone. Pitcher one should be the default position
             case 0:
 
-                posA.position = posADefault;
+                posA.position = new Vector3(posADefault.position.x, posADefault.position.y, posADefault.position.z);
                 break;
 
             //Change amount needed to adjust for pitcher positioning here
@@ -412,6 +458,7 @@ public class BaseballController : MonoBehaviour
         tweenTimer = 0;
         isTweening = true;
         pitchTypes = Random.Range(0, 5);
+        once = true;
 
         //Number Notes:
         /*
@@ -423,13 +470,12 @@ public class BaseballController : MonoBehaviour
          * Make method that adjusts endPoses before it goes into this new function
          * 
          */
-
-
         switch (RayCasting.accuracySetting)
         {
             case 0: // Just does the code like it used to, as there are 50/50 ball and strike options
                 print("0");
                 endPoses = Random.Range(0, 31);
+                Debug.Log($"this is end point {endPoses} of WildButton");
                 break;
 
             case 1:
@@ -437,15 +483,17 @@ public class BaseballController : MonoBehaviour
                 if (i <= 85) //use balls
                 {
                     print("1");
-                    int temp = Random.Range(0, Balls.Count + 1);
+                    int temp = Random.Range(0, Balls.Count);
                     endPoses = Balls[temp];
+                    Debug.Log($"this is end point {endPoses} of AverageButton");
 
                 }
                 else //use Strikes
                 {
                     print("1");
-                    int temp = Random.Range(0, Strikes.Count + 1);
+                    int temp = Random.Range(0, Strikes.Count);
                     endPoses = Strikes[temp];
+                    Debug.Log($"this is end point {endPoses} of AverageButton");
                 }
                 break;
 
@@ -454,14 +502,16 @@ public class BaseballController : MonoBehaviour
                 if (x <= 95) // use balls
                 {
                     print("2");
-                    int temp = Random.Range(0, Balls.Count + 1);
+                    int temp = Random.Range(0, Balls.Count);
                     endPoses = Balls[temp];
+                    Debug.Log($"this is end point {endPoses} of PinPointButton");
                 }
                 else //use Strikes
                 {
                     print("2");
-                    int temp = Random.Range(0, Strikes.Count + 1);
+                    int temp = Random.Range(0, Strikes.Count);
                     endPoses = Strikes[temp];
+                    Debug.Log($"this is end point {endPoses} of PinPointButton");
                 }
                 break;
         }
@@ -492,5 +542,4 @@ public class BaseballController : MonoBehaviour
         }
         Gizmos.DrawLine(p1, posB.position);
     }
-
 }

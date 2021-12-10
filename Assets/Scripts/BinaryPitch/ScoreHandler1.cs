@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class ScoreHandler1 : MonoBehaviour
     private MeshRenderer rend;
 
     public static bool correctScore = false;
+    public static int correctAnswerChecking = 0;
+    public static int correctScoreCount;
 
     private Vector3 leftPos;
     private Vector3 rightPos;
@@ -22,13 +25,26 @@ public class ScoreHandler1 : MonoBehaviour
 
     public static bool doOnce = true;
     private int pitchNumber = 0;
+    public TextMeshProUGUI pitchText;
 
-    public static List<int> scores = new List<int>();
+    public static List<string> scores = new List<string>();
    // public static List<string> ballTypes = new List<string>();
      public static List<int> ballTypes = new List<int>();
 
-    public Text BallType;
-    public Text BallScore;
+    public List<string> leaderboardYouranswer = new List<string>();
+    public List<int> leaderboardYouranswerColor = new List<int>();
+    public List<string> leaderboardCorrectAnswer = new List<string>();
+
+    public GameObject containerYouranswer;
+    public GameObject containerCorrectAnswer;
+    public GameObject YouranswerPrefeb;
+    public GameObject CorrectAnswerPrefeb;
+
+    public TextMeshProUGUI totalCorrectOutofTotal;
+    public TextMeshProUGUI avarageScoreText;
+
+    public Text yourAnswer;
+    public Text correctAnswer;
 
     public Text score1;
     public Text score2;
@@ -58,8 +74,8 @@ public class ScoreHandler1 : MonoBehaviour
         rightPos = new Vector3(-.38f, 1.638f, -.12f);
         leftPos = new Vector3(1.21f, 1.638f, -.12f);
 
-        BallType.text = "...";
-        BallScore.text = "0%";
+        yourAnswer.text = "...";
+        correctAnswer.text = "0%";
         rend = strikeZone.GetComponent<MeshRenderer>();
     }
 
@@ -90,8 +106,13 @@ public class ScoreHandler1 : MonoBehaviour
         {
             RayCasting.gameJustStarted = false;
             clearValues();
-            print("clearingValues");
+           
             pitchNumber = 0;
+            idNum = 0;
+            pitchText.text = "0 of 15";
+           
+          //s  print("clearingValues");
+           
         }
 
     }
@@ -118,35 +139,10 @@ public class ScoreHandler1 : MonoBehaviour
     {
 
         idNum++;
-
+        pitchText.text = idNum.ToString() + " of 15";
         //Score takes the guess, and ballType takes the correct answer
-        int tempNum = 0;
 
-        switch (BaseballController1.pitchTypes)
-        {
-            case 0:
-                tempNum = 0;
-                break;
-
-            case 1:
-                tempNum = 1;
-                break;
-
-            case 2:
-                tempNum = 3;
-                break;
-
-            case 3:
-                tempNum = 0;
-                break;
-
-            case 4:
-                tempNum = 4;
-                break;
-        }
-
-        ballTypes.Add(tempNum);
-
+        ballTypes.Add(BaseballController1.pitchTypes);
         scores.Add(RayCasting.guess);
 
         int nun = ballTypes.Count;
@@ -154,28 +150,41 @@ public class ScoreHandler1 : MonoBehaviour
         //print("Saving Guess: " + RayCasting.guess);
         //print("Saving Throw: " + BaseballController1.pitchTypes);
 
-        updateText(RayCasting.guess, tempNum);
+
+
+
+        updateText(RayCasting.guess, BaseballController1.pitchBallBoth);
         if (idNum > 14)
         {
-            endGame();
+            StartCoroutine(endGame());
             idNum = 0;
         }
 
     }
 
-    private void endGame()
+    private IEnumerator endGame()
     {
+        yield return new WaitForSeconds(2f);
+        UIController.finalResultForBinary = true;
+        ResultPanel();
         //SetValues();
         GameOver = true;
-        //clearValues();
+        clearValues();
 
     }
 
-    private void clearValues()
+    public void clearValues()
     {
-
-        scores.Clear();
-        ballTypes.Clear();
+        if(scores!=null)
+            scores.Clear();
+        if (ballTypes != null)
+            ballTypes.Clear();
+        if (leaderboardYouranswer != null)
+            leaderboardYouranswer.Clear();
+        if (leaderboardYouranswerColor != null)
+            leaderboardYouranswerColor.Clear();
+        if (leaderboardCorrectAnswer != null)
+            leaderboardCorrectAnswer.Clear();
 
     }
 
@@ -193,58 +202,178 @@ public class ScoreHandler1 : MonoBehaviour
 
     }
 
-    private void updateText(int score, int ballType)
+    private void updateText(string guess, string correctAnswer)
     {
 
         //0 1 2 3
         //0 1 2 3 4 5 6 
 
-        //I believe that this is boolean that works for correct/incorrect words.
 
-        if (score == ballType)
+        if (guess.Equals(correctAnswer))
         {
+            correctAnswerChecking = 1;
             correctScore = true;
+            correctScoreCount++;
+            leaderboardYouranswerColor.Add(0);
+
+            Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
         }
-        else
+        else if(!guess.Equals(correctAnswer))
         {
+            correctAnswerChecking = 2;
             correctScore = false;
+            leaderboardYouranswerColor.Add(1);
+
+            Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
         }
 
-        /* switch (ballType)
+       // Debug.Log($"this is correct Answer {correctAnswer} and this is guess ans {guess}");
+        switch (correctAnswer)
         {
-            case 0:
-                BallType.text = "Four Seam";
+            case "00":
+                this.correctAnswer.text = "Fastball-Strike";
                 break;
-            case 1:
-                BallType.text = "Curve Ball";
+            case "01":
+                this.correctAnswer.text = "Fastball-Ball";
                 break;
-            case 2:
-                BallType.text = "Slider";
+            case "10":
+                this.correctAnswer.text = "Curveball -Strike";
                 break;
-            case 3:
-                BallType.text = "Two Seam";
+            case "11":
+                this.correctAnswer.text = "Curveball -Ball";
                 break;
-            case 4:
-                BallType.text = "Change Up";
+            case "20":
+                this.correctAnswer.text = "Sliderball -Strike";
+                break;
+
+            case "21":
+                this.correctAnswer.text = "Sliderball -Ball";
+                break;
+
+            case "30":
+                this.correctAnswer.text = "Changeball -Strike";
+                break;
+
+            case "31":
+                this.correctAnswer.text = "Changeball -Ball";
                 break;
         }
 
-        BallScore.text = score + "%";
-        */
+        leaderboardCorrectAnswer.Add(this.correctAnswer.text);
+
+        switch (guess)
+        {
+            case "00":
+                yourAnswer.text = "Fastball-Strike";
+                break;
+            case "01":
+                yourAnswer.text = "Fastball-Ball";
+                break;
+            case "10":
+                yourAnswer.text = "Curveball -Strike";
+                break;
+            case "11":
+                yourAnswer.text = "Curveball -Ball";
+                break;
+            case "20":
+                yourAnswer.text = "Sliderball -Strike";
+                break;
+
+            case "21":
+                yourAnswer.text = "Sliderball -Ball";
+                break;
+
+            case "30":
+                yourAnswer.text = "Changeball -Strike";
+                break;
+
+            case "31":
+                yourAnswer.text = "Changeball -Ball";
+                break;
+        }
+
+        leaderboardYouranswer.Add(yourAnswer.text);
+
+
+
     }
+
+
+    public void ResultPanel()
+    {
+        ClearAllHolders();
+
+        foreach (var item in leaderboardCorrectAnswer)
+        {
+            var instantiatedObject = Instantiate(CorrectAnswerPrefeb, containerCorrectAnswer.transform);
+            var textObject = instantiatedObject.GetComponentInChildren<TextMeshProUGUI>();
+            // Debug.Log(item);
+            textObject.text = item;
+        }
+
+
+        for (int i = 0; i < leaderboardYouranswer.Count; i++)
+        {
+            var instantiatedObject = Instantiate(YouranswerPrefeb, containerYouranswer.transform);
+            var textObject = instantiatedObject.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (leaderboardYouranswerColor[i] == 0)
+            {
+                textObject.text = leaderboardYouranswer[i];
+                textObject.color = Color.green;
+            }
+            else if(leaderboardYouranswerColor[i] == 1)
+            {
+                textObject.text = leaderboardYouranswer[i];
+                textObject.color = Color.red;
+            }
+        }
+       
+
+        avarageScoreText.text = Avarage();
+        totalCorrectOutofTotal.text = Score();
+
+
+    }
+
+    public string Avarage()
+    {
+        float avarageScore = 0;
+       
+        avarageScore = ((correctScoreCount*100) / 15);
+        return avarageScore.ToString("0.0") + "%";
+    }
+
+    public string Score()
+    {
+        string avarageScore;
+
+        avarageScore = $"{correctScoreCount}/15";
+        return avarageScore;
+    }
+
+    private void ClearAllHolders()
+    {
+        containerYouranswer.ClearButNotZeroIndex();
+        containerCorrectAnswer.ClearButNotZeroIndex();
+
+        avarageScoreText.text = "0";
+        totalCorrectOutofTotal.text = "0";
+    }
+
 
     private void SetValues1()
     {
-        score1.text = converter(scores[0]);
-        score2.text = converter(scores[1]);
-        score3.text = converter(scores[2]);
-        score4.text = converter(scores[3]);
-        score5.text = converter(scores[4]);
-        score6.text = converter(scores[5]);
-        score7.text = converter(scores[6]);
-        score8.text = converter(scores[7]);
-        score9.text = converter(scores[8]);
-        score10.text = converter(scores[9]);
+        score1.text = (scores[0]);
+        score2.text = (scores[1]);
+        score3.text = (scores[2]);
+        score4.text = (scores[3]);
+        score5.text = (scores[4]);
+        score6.text = (scores[5]);
+        score7.text = (scores[6]);
+        score8.text = (scores[7]);
+        score9.text = (scores[8]);
+        score10.text = (scores[9]);
 
         ball1.text = converter(ballTypes[0]);
         ball2.text = converter(ballTypes[1]);
@@ -261,11 +390,11 @@ public class ScoreHandler1 : MonoBehaviour
     private void SetValues2()
     {
 
-        score1.text = converter(scores[10]);
-        score2.text = converter(scores[11]);
-        score3.text = converter(scores[12]);
-        score4.text = converter(scores[13]);
-        score5.text = converter(scores[14]);
+        score1.text = (scores[10]);
+        score2.text = (scores[11]);
+        score3.text = (scores[12]);
+        score4.text = (scores[13]);
+        score5.text = (scores[14]);
         score6.text = "..."; //converter(scores[15]);
         score7.text = "..."; //converter(scores[16]);
         score8.text = "..."; //converter(scores[17]);
@@ -286,6 +415,7 @@ public class ScoreHandler1 : MonoBehaviour
 
     private string converter(int ballType)
     {
+        Debug.Log("here is the result");
         switch (ballType)
         {
             case 0:
